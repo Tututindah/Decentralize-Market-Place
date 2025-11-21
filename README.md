@@ -44,11 +44,11 @@ Everything that matters lives on Cardano. No databases, no admins, no custody.
 ## Smart Contracts (Aiken)
 ```
 /contracts/
-  escrow.aiken
-  milestone.aiken
-  reputation.aiken
-  dispute.aiken
-  proof_of_work.aiken
+  escrow.ak
+  milestone.ak
+  reputation.ak
+  dispute.ak
+  proof_of_work.ak
 ```
 
 ## Public On-Chain Metrics Dashboard
@@ -73,4 +73,7 @@ Everything that matters lives on Cardano. No databases, no admins, no custody.
 - Mainnet launch within 12 months of funding  
 
 ## Links
-- GitHub: https://github.com/decentralize-market-place  
+- **GitHub Repository:** [DeCentGigs](https://github.com/Surabaya-Blockchain-Alliance/Decentralize-Market-Place)  
+- **MockUp and WireFrame:** [View Here](https://decentralize-market-place.vercel.app)  
+- **Draft Legal:** *Coming Soon*  
+- **Catalyst Proposal Link:** *To be added*
