@@ -73,7 +73,7 @@ Everything that matters lives on Cardano. No databases, no admins, no custody.
 - Mainnet launch within 12 months of funding  
 
 ## Links
-- GitHub: https://github.com/Surabaya-Blockchain-Alliance/Decentralize-Market-Place
-- MockUp and WireFrame: https://decentralize-market-place.vercel.app
-- Draft Legal: Soon
-- Catalyst Link Proposal
+- **GitHub Repository:** [DeCentGigs](https://github.com/Surabaya-Blockchain-Alliance/Decentralize-Market-Place)  
+- **MockUp and WireFrame:** [View Here](https://decentralize-market-place.vercel.app)  
+- **Draft Legal:** *Coming Soon*  
+- **Catalyst Proposal Link:** *To be added*
