@@ -1,0 +1,15 @@
+[
+  {
+    "id": "app_1764300240902_a725921e",
+    "jobId": "job_1764300240273_84caa5bc",
+    "freelancerAddress": "addr_test1qru7gjqmwxu0qusxlndy4qcpstpxphc3nddp25ya8clj08vhaue30c02094p3s94qvagw8shwgj8s7raqth0qfayqqmqkxrsu8",
+    "freelancerPkh": "f9e4481b71b8f07206fcda4a830182c260df119b5a15509d3e3f279d",
+    "proposal": "I am experienced in blockchain development and can deliver this project.",
+    "proposedTimeline": 90,
+    "portfolioLinks": [
+      "https://github.com/example"
+    ],
+    "status": "pending",
+    "appliedAt": 1764300240902
+  }
+]

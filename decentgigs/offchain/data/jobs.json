@@ -1,0 +1,52 @@
+[
+  {
+    "id": "job_1764300240273_84caa5bc",
+    "title": "Build a DeFi Dashboard on Cardano",
+    "description": "We are looking for an experienced blockchain developer to build a comprehensive\nDeFi dashboard for Cardano. The dashboard should display:\n\n- Wallet balances (ADA and native tokens)\n- Staking information\n- Transaction history\n- DEX price charts\n- Portfolio analytics\n\nRequirements:\n- Experience with Cardano and Plutus\n- Proficiency in React/Next.js\n- Strong UI/UX design skills\n- Familiarity with Lucid or similar Cardano libraries\n\nDeliverables:\n1. Responsive web application\n2. Smart contract integration\n3. Documentation\n4. Testing suite",
+    "category": "blockchain",
+    "skills": [
+      "Cardano",
+      "Plutus",
+      "React",
+      "TypeScript",
+      "Lucid",
+      "Web3"
+    ],
+    "budget": 5000,
+    "milestones": [
+      {
+        "number": 1,
+        "description": "UI/UX Design and Mockups",
+        "amount": 1000,
+        "deadline": 1766244240273,
+        "released": false
+      },
+      {
+        "number": 2,
+        "description": "Frontend Development (Wallet Integration)",
+        "amount": 1500,
+        "deadline": 1768188240273,
+        "released": false
+      },
+      {
+        "number": 3,
+        "description": "Backend & Smart Contract Integration",
+        "amount": 1500,
+        "deadline": 1770132240273,
+        "released": false
+      },
+      {
+        "number": 4,
+        "description": "Testing, Documentation & Deployment",
+        "amount": 1000,
+        "deadline": 1772076240273,
+        "released": false
+      }
+    ],
+    "employerAddress": "addr_test1qpjkr32edgezk7y4hfcwvqyefgy42s2clf7cl7w2glvznd6w6d8gff3rmytn0pdaej5ej2x9q0c62vs47as6ngdfmsvs6xacex",
+    "employerPkh": "6561c5596a322b7895ba70e600994a09554158fa7d8ff9ca47d829b7",
+    "status": "open",
+    "createdAt": 1764300240273,
+    "updatedAt": 1764300240273
+  }
+]

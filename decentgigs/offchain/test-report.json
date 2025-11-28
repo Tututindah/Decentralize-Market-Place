@@ -1,0 +1,33 @@
+{
+  "timestamp": 1764300236486,
+  "network": "Preprod",
+  "tests": {
+    "aikenTests": {
+      "passed": 2,
+      "failed": 0,
+      "total": 2
+    }
+  },
+  "wallets": {
+    "employer": {
+      "address": "addr_test1qpjkr32edgezk7y4hfcwvqyefgy42s2clf7cl7w2glvznd6w6d8gff3rmytn0pdaej5ej2x9q0c62vs47as6ngdfmsvs6xacex",
+      "adaBalance": 9899.831507,
+      "usdmBalance": 0
+    },
+    "freelancer": {
+      "address": "addr_test1qru7gjqmwxu0qusxlndy4qcpstpxphc3nddp25ya8clj08vhaue30c02094p3s94qvagw8shwgj8s7raqth0qfayqqmqkxrsu8",
+      "adaBalance": 100,
+      "usdmBalance": 0
+    }
+  },
+  "transactions": [],
+  "workflow": {
+    "jobId": "job_1764300240273_84caa5bc",
+    "applicationId": "app_1764300240902_a725921e"
+  },
+  "summary": {
+    "success": true,
+    "errors": [],
+    "warnings": []
+  }
+}

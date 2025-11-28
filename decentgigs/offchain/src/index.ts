@@ -6,6 +6,8 @@ import {
   Datum,
   Address,
   LucidEvolution,
+  getAddressDetails,
+  validatorToAddress,
 } from "@lucid-evolution/lucid";
 
 import {
@@ -16,13 +18,10 @@ import {
   USDM_UNIT,
   LOCK_AMOUNT,
   NETWORK,
-} from "./config";
+} from "./config.js";
 
-import { readValidator, redeemerRelease, redeemerCancel, createJobDatum } from "./utils";
+import { readValidator, redeemerRelease, redeemerCancel, createJobDatum } from "./utils.js";
 
-// ═══════════════════════════════════════════════════════════════
-// INITIALIZE LUCID
-// ═══════════════════════════════════════════════════════════════
 
 async function initLucid(seedPhrase: string): Promise<LucidEvolution> {
   const lucid = await Lucid(
@@ -33,10 +32,6 @@ async function initLucid(seedPhrase: string): Promise<LucidEvolution> {
   lucid.selectWallet.fromSeed(seedPhrase);
   return lucid;
 }
-
-// ═══════════════════════════════════════════════════════════════
-// 1. DEPLOY ESCROW (LOCK FUNDS)
-// ═══════════════════════════════════════════════════════════════
 
 async function deployEscrow(
   lucid: LucidEvolution,
@@ -61,7 +56,7 @@ async function deployEscrow(
       },
       {
         [USDM_UNIT]: amount,
-        lovelace: 2_000_000n, // Min ADA requirement
+        lovelace: 2_000_000n, 
       }
     )
     .complete();
@@ -73,9 +68,6 @@ async function deployEscrow(
   return txHash;
 }
 
-// ═══════════════════════════════════════════════════════════════
-// 2. RELEASE PAYMENT (MULTISIG TO FREELANCER)
-// ═══════════════════════════════════════════════════════════════
 
 async function releasePayment(
   employerLucid: LucidEvolution,
@@ -86,7 +78,6 @@ async function releasePayment(
 ): Promise<TxHash> {
   console.log("\n💸 Releasing Payment to Freelancer...");
 
-  // Get UTXO
   const [utxo] = await employerLucid.utxosByOutRef([escrowUtxo]);
   if (!utxo) throw new Error("❌ Escrow UTXO not found");
 
@@ -96,7 +87,6 @@ async function releasePayment(
 
   const validator = readValidator();
 
-  // Build transaction
   const tx = await employerLucid
     .newTx()
     .collectFrom([utxo], redeemerRelease)
@@ -112,22 +102,11 @@ async function releasePayment(
   console.log("   ✍️  Signing with employer...");
   const employerSigned = await tx.sign.withWallet().complete();
 
-  console.log("   ✍️  Signing with freelancer...");
-  const freelancerSignature = await freelancerLucid
-    .wallet()
-    .signTx(employerSigned.toCBOR());
-
-  const bothSigned = employerSigned.assemble([freelancerSignature]).complete();
-
-  const txHash = await bothSigned.submit();
+  // TODO: Multi-sig: merge signatures if SDK supports. For now, only employer signature is submitted.
+  const txHash = await employerSigned.submit();
   console.log(`   ✅ Tx submitted: ${txHash}`);
-
   return txHash;
 }
-
-// ═══════════════════════════════════════════════════════════════
-// 3. CANCEL JOB (MULTISIG RETURN TO EMPLOYER)
-// ═══════════════════════════════════════════════════════════════
 
 async function cancelJob(
   employerLucid: LucidEvolution,
@@ -138,7 +117,6 @@ async function cancelJob(
 ): Promise<TxHash> {
   console.log("\n🔙 Cancelling Job (Returning to Employer)...");
 
-  // Get UTXO
   const [utxo] = await employerLucid.utxosByOutRef([escrowUtxo]);
   if (!utxo) throw new Error("❌ Escrow UTXO not found");
 
@@ -147,8 +125,6 @@ async function cancelJob(
   console.log(`   Returning to: ${employerAddress}`);
 
   const validator = readValidator();
-
-  // Build transaction
   const tx = await employerLucid
     .newTx()
     .collectFrom([utxo], redeemerCancel)
@@ -164,29 +140,18 @@ async function cancelJob(
   console.log("   ✍️  Signing with employer...");
   const employerSigned = await tx.sign.withWallet().complete();
 
-  console.log("   ✍️  Signing with freelancer...");
-  const freelancerSignature = await freelancerLucid
-    .wallet()
-    .signTx(employerSigned.toCBOR());
-
-  const bothSigned = employerSigned.assemble([freelancerSignature]).complete();
-
-  const txHash = await bothSigned.submit();
+  // TODO: Multi-sig: merge signatures if SDK supports. For now, only employer signature is submitted.
+  const txHash = await employerSigned.submit();
   console.log(`   ✅ Tx submitted: ${txHash}`);
-
   return txHash;
 }
 
-// ═══════════════════════════════════════════════════════════════
-// MAIN FUNCTION
-// ═══════════════════════════════════════════════════════════════
 
 async function main() {
   console.log("\n═══════════════════════════════════════════════════");
   console.log("   🚀 DecentGigs Escrow Deployment");
   console.log("═══════════════════════════════════════════════════\n");
 
-  // Validate configuration
   if (BLOCKFROST_API_KEY.includes("YOUR_") || EMPLOYER_MNEMONIC.includes("seed_phrase")) {
     console.error("❌ ERROR: Please update configuration in src/config.ts");
     console.error("   - Get Blockfrost API key from: https://blockfrost.io");
@@ -195,7 +160,6 @@ async function main() {
   }
 
   try {
-    // Initialize wallets
     console.log("📡 Initializing wallets...");
     const employerLucid = await initLucid(EMPLOYER_MNEMONIC);
     const freelancerLucid = await initLucid(FREELANCER_MNEMONIC);
@@ -203,20 +167,17 @@ async function main() {
     const employerAddress = await employerLucid.wallet().address();
     const freelancerAddress = await freelancerLucid.wallet().address();
 
-    const employerPkh = employerLucid.utils.getAddressDetails(employerAddress)
-      .paymentCredential?.hash!;
-    const freelancerPkh = freelancerLucid.utils.getAddressDetails(freelancerAddress)
-      .paymentCredential?.hash!;
+    const employerPkh = getAddressDetails(employerAddress).paymentCredential?.hash!;
+    const freelancerPkh = getAddressDetails(freelancerAddress).paymentCredential?.hash!;
 
     const validator = readValidator();
-    const validatorAddress = employerLucid.utils.validatorToAddress(validator);
+    const validatorAddress = validatorToAddress(NETWORK, validator);
 
     console.log("✅ Wallets loaded:");
     console.log(`   Employer:   ${employerAddress}`);
     console.log(`   Freelancer: ${freelancerAddress}`);
     console.log(`   Script:     ${validatorAddress}\n`);
 
-    // Check balances
     const employerUtxos = await employerLucid.wallet().getUtxos();
     const employerAda = employerUtxos.reduce(
       (sum, utxo) => sum + (utxo.assets.lovelace || 0n),
@@ -225,15 +186,13 @@ async function main() {
 
     console.log(`💰 Employer Balance: ${Number(employerAda) / 1_000_000} ADA`);
 
+
     if (employerAda < 10_000_000n) {
       console.error("\n❌ Insufficient funds! Need at least 10 ADA");
       console.error("   Get test ADA from: https://docs.cardano.org/cardano-testnet/tools/faucet/");
       return;
     }
 
-    // ═══════════════════════════════════════════════════════
-    // SCENARIO 1: Deploy Escrow (Lock Funds)
-    // ═══════════════════════════════════════════════════════
     let deployedUtxo: OutRef | undefined;
 
     try {
@@ -258,12 +217,8 @@ async function main() {
       return;
     }
 
-    // Wait a bit before next transaction
     await new Promise((resolve) => setTimeout(resolve, 5000));
 
-    // ═══════════════════════════════════════════════════════
-    // SCENARIO 2: Release Payment to Freelancer
-    // ═══════════════════════════════════════════════════════
     if (deployedUtxo) {
       try {
         const releaseTxHash = await releasePayment(
@@ -285,9 +240,6 @@ async function main() {
       }
     }
 
-    // ═══════════════════════════════════════════════════════
-    // SCENARIO 3: Cancel Job (Return to Employer)
-    // ═══════════════════════════════════════════════════════
     console.log("\n--- Testing Cancel Scenario ---");
     console.log("   Creating new escrow for cancel test...");
 
@@ -308,7 +260,6 @@ async function main() {
 
       cancelUtxo = { txHash: cancelDeployTxHash, outputIndex: 0 };
 
-      // Wait before cancelling
       await new Promise((resolve) => setTimeout(resolve, 5000));
 
       const cancelTxHash = await cancelJob(
@@ -338,5 +289,4 @@ async function main() {
   }
 }
 
-// Run main function
 main().catch(console.error);

@@ -1,0 +1,12 @@
+[
+  {
+    "id": "notif_1764300240903_b5db8a38",
+    "userAddress": "addr_test1qpjkr32edgezk7y4hfcwvqyefgy42s2clf7cl7w2glvznd6w6d8gff3rmytn0pdaej5ej2x9q0c62vs47as6ngdfmsvs6xacex",
+    "type": "new_application",
+    "title": "New Application Received",
+    "message": "You have a new application for \"Build a DeFi Dashboard on Cardano\"",
+    "jobId": "job_1764300240273_84caa5bc",
+    "read": false,
+    "createdAt": 1764300240903
+  }
+]

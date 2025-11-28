@@ -65,7 +65,7 @@ const selectorContent = [
 const ThemeToggle = ({ isDarkMode, toggleTheme }: { isDarkMode: boolean, toggleTheme: () => void }) => (
     <button
         onClick={toggleTheme}
-        className={`p-2 rounded-full transition-colors ${isDarkMode ? 'text-white hover:bg-white/10' : 'text-black hover:bg-black/10'}`}
+        className={`p-2 rounded-full transition-colors ${isDarkMode ? 'text-white hover:bg-white/10' : 'text-blue hover:bg-black/10'}`}
         aria-label="Toggle theme"
     >
         {isDarkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
@@ -90,13 +90,13 @@ const FlowStepCard = ({ icon: Icon, title, description, delay = 0, isDarkMode }:
         <Card className={`p-6 h-full flex flex-col justify-start backdrop-blur-sm transition-all shadow-lg hover:shadow-primary/30 ${
             isDarkMode 
                 ? 'bg-black/30 border-white/20 hover:border-primary/50 text-white' 
-                : 'bg-white/80 border-gray-200 hover:border-primary/50 text-black'
+                : 'bg-white/80 border-gray-200 hover:border-primary/50 text-gray-900'
         }`}>
             <div className="flex items-center space-x-3 mb-4">
                 <div className="w-10 h-10 rounded-full flex items-center justify-center border border-primary/50 bg-primary/10">
                     <Icon className="w-5 h-5 text-primary" />
                 </div>
-                <h3 className={`font-semibold text-lg ${isDarkMode ? 'text-white' : 'text-black'}`}>
+                <h3 className={`font-semibold text-lg ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
                     {title}
                 </h3>
             </div>
@@ -122,7 +122,7 @@ const FeatureCard = ({ icon: Icon, title, description, delay = 0, isDarkMode }: 
         <Card className={`p-6 h-56 flex flex-col justify-start transition-all ${
             isDarkMode 
                 ? 'bg-black/40 border border-white/10 hover:border-primary/50 text-white' 
-                : 'bg-white border border-gray-200 hover:border-primary/50 text-black shadow-lg'
+                : 'bg-white border border-gray-200 hover:border-primary/50 text-gray-900 shadow-lg'
         }`}>
             <div className="w-full h-32 flex items-center justify-center mb-3">
                 <div className="w-12 h-12 rounded-lg flex items-center justify-center border border-primary/30 bg-primary/10">
@@ -182,7 +182,7 @@ const ShowcaseProjectCard = ({ title, description, tags, icon: Icon, design = 'd
 
     // Card styling based on theme
     const darkClasses = "bg-black/40 border border-white/10 hover:shadow-primary/30 text-white";
-    const lightClasses = "bg-white/80 border border-gray-200 hover:shadow-primary/30 text-black shadow-lg";
+    const lightClasses = "bg-white/80 border border-gray-200 hover:shadow-primary/30 text-gray-900 shadow-lg";
     
     let cardClasses = `relative p-6 h-full rounded-xl overflow-hidden shadow-2xl cursor-pointer transition-shadow duration-300 ${isDarkMode ? darkClasses : lightClasses}`;
     let lightClassesEffect = "absolute inset-0 transition-opacity duration-300 pointer-events-none";
@@ -212,16 +212,17 @@ const ShowcaseProjectCard = ({ title, description, tags, icon: Icon, design = 'd
             <motion.div
                 className={lightClassesEffect}
                 style={{ 
-                    opacity: useTransform([x, y], ([xVal, yVal]) => 
-                        0.1 + (0.5 - Math.abs(xVal - 0.5)) * 0.2 + (0.5 - Math.abs(yVal - 0.5)) * 0.2
-                    ),
+                    opacity: useTransform([x, y], (input: number[]) => {
+                        const [xVal, yVal] = input;
+                        return 0.1 + (0.5 - Math.abs(xVal - 0.5)) * 0.2 + (0.5 - Math.abs(yVal - 0.5)) * 0.2;
+                    }),
                 }}
             />
 
             <div className="relative z-10 space-y-4">
                 <div className="flex items-center space-x-3">
                     <Icon className={`w-8 h-8 text-primary`} />
-                    <h3 className={`text-xl font-bold ${isDarkMode ? 'text-white' : 'text-black'}`}>{title}</h3>
+                    <h3 className={`text-xl font-bold ${isDarkMode ? 'text-white' : 'text-blue'}`}>{title}</h3>
                 </div>
                 <p className={isDarkMode ? 'text-white/70 text-sm' : 'text-gray-700 text-sm'}>{description}</p>
                 <div className="flex flex-wrap gap-2 pt-2">
@@ -253,11 +254,11 @@ const MetricCard = ({ icon: Icon, metric, description, delay = 0, isDarkMode }: 
         className={`p-6 border border-primary/20 rounded-xl transition-colors ${
             isDarkMode 
                 ? 'bg-black/40 text-white' 
-                : 'bg-white/80 text-black shadow-lg'
+                : 'bg-white/80 text-gray-900 shadow-lg'
         }`}
     >
         <Icon className="w-8 h-8 text-primary mx-auto mb-3" />
-        <h3 className={`text-3xl font-bold mb-1 ${isDarkMode ? 'text-white' : 'text-black'}`}>{metric}</h3>
+        <h3 className={`text-3xl font-bold mb-1 ${isDarkMode ? 'text-white' : 'text-blue'}`}>{metric}</h3>
         <p className={isDarkMode ? "text-white/70 text-sm" : "text-gray-700 text-sm"}>{description}</p>
     </motion.div>
 );
@@ -289,7 +290,7 @@ const ContentButton = ({
     >
         <div className="flex items-center space-x-3">
             <Icon className={`w-5 h-5 ${isSelected ? 'text-primary' : isDarkMode ? 'text-white/60' : 'text-gray-600'}`} />
-            <span className={`font-semibold text-base ${isSelected ? 'text-white' : isDarkMode ? 'text-white/80' : 'text-black/80'}`}>{title}</span>
+            <span className={`font-semibold text-base ${isSelected ? 'text-white' : isDarkMode ? 'text-white/80' : 'text-blue/80'}`}>{title}</span>
         </div>
     </button>
 );
@@ -303,7 +304,7 @@ const DynamicContentCard = ({ content, isDarkMode }: { content: (typeof selector
         <Card className={`p-8 h-full flex flex-col justify-start backdrop-blur-md border-primary/50 shadow-2xl shadow-primary/30 transition-colors ${
             isDarkMode 
                 ? 'bg-black/30 text-white' 
-                : 'bg-white/80 text-black'
+                : 'bg-white/80 text-gray-900'
         }`}>
             <div className="flex items-center space-x-4 mb-6">
                 <div className="w-12 h-12 rounded-full flex items-center justify-center border-2 border-primary bg-primary/20">
@@ -403,14 +404,14 @@ export function Landing({ onGetStarted, onLearnMore, onShowProfile, onSettingPro
 
 
     return (
-        <div className={`min-h-screen relative overflow-hidden transition-colors ${isDarkMode ? 'bg-black text-white' : 'bg-white text-black'}`}>
+        <div className={`min-h-screen relative overflow-hidden transition-colors ${isDarkMode ? 'bg-black text-white' : 'bg-white text-blue'}`}>
 
             {/* --- BEGIN DARK/GLOSSY BACKGROUND EFFECT (Only active in dark mode) --- */}
             {isDarkMode && (
                 <>
                     <div className="absolute inset-0 bg-[#18181b] z-0" /> 
                     <div className="absolute inset-0 opacity-10" style={{
-                        backgroundImage: "url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iIzE4MTgxYiIvPjxwYXRoIGQ9Ik0gNDAgMCBMIDAgMCBMIDAgNDAiIGZpbGw9Im5vbmUiIHN0cm9rZT0icmdiYSgyNTUsIDI1NSwgMjU1LCAwLjA2KSIgc3Ryb2tlLXdpZHRoPSIxIi8+PC9wYXRoPjwvc3Zn>')",
+                        backgroundImage: "url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iMTAwJSI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iIzE4MTgxYiIvPjxwYXRoIGQ9Ik0gNDAgMCBMIDAgMCBMIDAgNDAiIGZpbGw9Im5vbmUiIHN0cm9rZT0icmdiYSgyNTUsIDI1NSwgMjU1LCAwLjA2KSIgc3Ryb2tlLXdpZHRoPSIxIi8+PC9wYXRoPjwvc3Zn>')",
                         zIndex: 1,
                     }} />
                     <div className="absolute inset-0" style={{
@@ -442,7 +443,7 @@ export function Landing({ onGetStarted, onLearnMore, onShowProfile, onSettingPro
                                 >
                                     <Sparkles className="w-5 h-5 text-white" />
                                 </button>
-                                <span className={isDarkMode ? 'text-white font-semibold' : 'text-black font-semibold'}>
+                                <span className={isDarkMode ? 'text-white font-semibold' : 'text-blue font-semibold'}>
                                     WorPlace Around
                                 </span>
                             </div>
@@ -451,7 +452,7 @@ export function Landing({ onGetStarted, onLearnMore, onShowProfile, onSettingPro
                                 <Button 
                                     variant="outline" 
                                     onClick={onGetStarted} 
-                                    className={isDarkMode ? "border-white/20 hover:bg-white/10 text-white" : "border-black/20 text-black hover:bg-black/5"}
+                                    className={isDarkMode ? "border-white/20 hover:bg-white/10 text-white" : "border-black/20 text-blue hover:bg-black/5"}
                                 >
                                     Connect Wallet
                                 </Button>
@@ -480,9 +481,10 @@ export function Landing({ onGetStarted, onLearnMore, onShowProfile, onSettingPro
                         className="absolute inset-0 z-0 pointer-events-none"
                         style={{
                             background: `radial-gradient(circle 300px at var(--hero-light-x, 50%) var(--hero-light-y, 50%), rgba(139, 92, 246, 0.2) 0%, transparent 70%)`,
-                            opacity: useTransform([mouseX, mouseY], ([xVal, yVal]) => 
-                                isDarkMode ? 0.5 + (0.5 - Math.abs(xVal - 0.5)) * 0.5 + (0.5 - Math.abs(yVal - 0.5)) * 0.5 : 0 // Only show in dark mode
-                            ),
+                            opacity: useTransform([mouseX, mouseY], (input: number[]) => {
+                                const [xVal, yVal] = input;
+                                return isDarkMode ? 0.5 + (0.5 - Math.abs(xVal - 0.5)) * 0.5 + (0.5 - Math.abs(yVal - 0.5)) * 0.5 : 0;
+                            }),
                             transition: "opacity 0.1s linear, background-position 0.1s linear"
                         }}
                     />
@@ -512,7 +514,7 @@ export function Landing({ onGetStarted, onLearnMore, onShowProfile, onSettingPro
                         <motion.h1
                             variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
                             transition={{ duration: 0.6 }}
-                            className={`max-w-4xl mx-auto text-4xl md:text-6xl font-extrabold leading-tight ${isDarkMode ? 'text-white' : 'text-black'}`} 
+                            className={`max-w-4xl mx-auto text-4xl md:text-6xl font-extrabold leading-tight ${isDarkMode ? 'text-white' : 'text-blue'}`} 
                         >
                             TRUSTLESS FREELANCING ON
                             <br />
@@ -543,7 +545,7 @@ export function Landing({ onGetStarted, onLearnMore, onShowProfile, onSettingPro
                                 size="lg" 
                                 variant="outline" 
                                 onClick={onLearnMore} 
-                                className={isDarkMode ? "size-lg border-white/30 bg-transparent text-white hover:bg-white/10" : "size-lg border-black/30 bg-transparent text-black hover:bg-black/5"}
+                                className={isDarkMode ? "size-lg border-white/30 bg-transparent text-white hover:bg-white/10" : "size-lg border-black/30 bg-transparent text-blue hover:bg-black/5"}
                             >
                                 Learn More
                             </Button>
@@ -579,7 +581,7 @@ export function Landing({ onGetStarted, onLearnMore, onShowProfile, onSettingPro
                     {isDarkMode && <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-3/4 h-64 bg-green-500/20 rounded-full filter blur-3xl opacity-50 z-0" />}
 
                     <div className="max-w-7xl mx-auto px-4 relative z-10">
-                        <h2 className={`text-3xl font-bold mb-10 text-center ${isDarkMode ? 'text-white' : 'text-black'}`}>
+                        <h2 className={`text-3xl font-bold mb-10 text-center ${isDarkMode ? 'text-white' : 'text-blue'}`}>
                             Core Decentralization Pillars
                         </h2>
                         {/* 3. The Two-Card Layout: Content (2/3) + Selector (1/3) */}
@@ -609,7 +611,7 @@ export function Landing({ onGetStarted, onLearnMore, onShowProfile, onSettingPro
                                         ? 'bg-black/50 border border-white/20' 
                                         : 'bg-white border border-gray-200 shadow-lg'
                                 }`}>
-                                    <h3 className={isDarkMode ? "text-white/80 font-semibold mb-2 px-2" : "text-black/80 font-semibold mb-2 px-2"}>Select Core Feature:</h3>
+                                    <h3 className={isDarkMode ? "text-white/80 font-semibold mb-2 px-2" : "text-blue/80 font-semibold mb-2 px-2"}>Select Core Feature:</h3>
                                     {/* 4. Selector Buttons */}
                                     {selectorContent.map(item => (
                                         <ContentButton
@@ -636,7 +638,7 @@ export function Landing({ onGetStarted, onLearnMore, onShowProfile, onSettingPro
                     transition={{ duration: 0.8 }}
                 >
                     <div className="max-w-7xl mx-auto px-4">
-                        <h2 className={`text-3xl font-bold mb-8 text-center ${isDarkMode ? 'text-white' : 'text-black'}`}>
+                        <h2 className={`text-3xl font-bold mb-8 text-center ${isDarkMode ? 'text-white' : 'text-blue'}`}>
                             Project Showcase
                         </h2>
                         {/* Horizontal Scroll / Carousel Container */}
@@ -711,7 +713,7 @@ export function Landing({ onGetStarted, onLearnMore, onShowProfile, onSettingPro
                     transition={{ duration: 0.8 }}
                 >
                     <div className="max-w-7xl mx-auto px-4">
-                        <h2 className={`text-3xl font-bold mb-10 text-center ${isDarkMode ? 'text-white' : 'text-black'}`}>
+                        <h2 className={`text-3xl font-bold mb-10 text-center ${isDarkMode ? 'text-white' : 'text-blue'}`}>
                             Our Impact on the Decentralized Ecosystem
                         </h2>
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
@@ -729,7 +731,7 @@ export function Landing({ onGetStarted, onLearnMore, onShowProfile, onSettingPro
                     className={`py-16 border-t transition-colors ${isDarkMode ? 'border-white/10' : 'border-gray-200'}`}
                 >
                     <div className="max-w-7xl mx-auto px-4">
-                        <h2 className={`text-3xl font-bold mb-10 text-center ${isDarkMode ? 'text-white' : 'text-black'}`}>
+                        <h2 className={`text-3xl font-bold mb-10 text-center ${isDarkMode ? 'text-white' : 'text-blue'}`}>
                             Top Rated Freelancers
                         </h2>
                         <p className={isDarkMode ? 'text-white/70 text-center' : 'text-gray-700 text-center'}>

@@ -1,16 +1,20 @@
 import { useState } from 'react';
+import { useTheme } from './ThemeProvider';
 import { Button } from './ui/button';
 import { Card } from './ui/card';
 import { Wallet, ArrowLeft, CheckCircle2 } from 'lucide-react';
 import { UserType } from '../App';
+import { AppHeader } from './AppHeader';
+import { Footer } from './Footer';
 
-interface WalletConnectProps {
+export interface WalletConnectProps {
     onConnect: (userType: UserType) => void;
-    // New prop to align with the global theme
-    isDarkMode: boolean; 
 }
 
-export function WalletConnect({ onConnect, isDarkMode }: WalletConnectProps) {
+export function WalletConnect({ onConnect }: WalletConnectProps) {
+    const { theme, toggleTheme } = useTheme();
+    const isDarkMode = theme === 'dark';
+
     const [step, setStep] = useState<'wallet' | 'user-type'>('wallet');
     const [selectedWallet, setSelectedWallet] = useState<string | null>(null);
 
@@ -46,6 +50,7 @@ export function WalletConnect({ onConnect, isDarkMode }: WalletConnectProps) {
     
     return (
         <div className={containerClasses}>
+            <AppHeader isDarkMode={isDarkMode} onToggleTheme={toggleTheme} onGetStarted={() => {}} onShowProfile={() => {}} />
             {/* Background Effect (Only visible in Dark Mode for that glossy look) */}
             {isDarkMode && (
                 <>
@@ -147,7 +152,6 @@ export function WalletConnect({ onConnect, isDarkMode }: WalletConnectProps) {
                                     <h3 className={`text-xl font-bold ${foregroundText}`}>I'm a Freelancer</h3>
                                     <p className={mutedText}>Find secure, decentralized work and get paid via smart contract escrow</p>
                                     <div className="pt-4">
-                                        {/* Adjusted gradient to use secondary as the start color */}
                                         <Button className="w-full bg-gradient-to-r from-secondary to-primary hover:opacity-90 shadow-lg shadow-secondary/20 transition-all">
                                             Continue as Freelancer
                                         </Button>
@@ -165,6 +169,7 @@ export function WalletConnect({ onConnect, isDarkMode }: WalletConnectProps) {
                     )}
                 </div>
             </div>
+            <Footer isDarkMode={isDarkMode} />
         </div>
     );
 }

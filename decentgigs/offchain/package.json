@@ -4,22 +4,39 @@
   "description": "DecentGigs Escrow Smart Contract on Cardano",
   "type": "module",
   "scripts": {
-    "build": "aiken build",
-    "test": "aiken test",
+    "build": "tsc",
+    "build:aiken": "cd .. && aiken build",
+    "build:milestone": "cd .. && aiken build -f decentgigs_milestone",
+    "test": "NODE_OPTIONS=--experimental-vm-modules jest",
+    "test:watch": "NODE_OPTIONS=--experimental-vm-modules jest --watch",
+    "test:coverage": "NODE_OPTIONS=--experimental-vm-modules jest --coverage",
+    "test:aiken": "cd .. && aiken check",
+    "test:all": "npm run test:aiken && npm run test",
     "test:vodka": "node tests/vodka.test.js",
-    "deploy": "node scripts/deploy.js",
-    "create-job": "node scripts/create-job.js",
-    "release-payment": "node scripts/release-payment.js",
-    "cancel-job": "node scripts/cancel-job.js",
-    "check-balance": "node scripts/check-balance.js"
+    "deploy": "node dist/index.js",
+    "mint-usdm": "node dist/scripts/mint-usdm.js",
+    "check-balance": "node dist/scripts/check-balance.js",
+    "query-script": "node dist/scripts/query-script.js",
+    "post-job": "node dist/workflows/post-job.js",
+    "apply-job": "node dist/workflows/apply-job.js",
+    "list-jobs-db": "node dist/scripts/list-jobs.js",
+    "accept-application": "node dist/workflows/accept-application.js",
+    "release-milestone": "node dist/workflows/release-milestone.js",
+    "release-payment": "node dist/scripts/release-payment.js",
+    "cancel-job": "node dist/scripts/cancel-job.js"
   },
   "dependencies": {
     "@lucid-evolution/lucid": "^0.3.36",
     "@lucid-evolution/provider": "^0.1.3",
-    "@sidan-lab/vodka": "^0.6.0",
     "dotenv": "^16.4.5"
   },
   "devDependencies": {
-    "@types/node": "^20.11.0"
+    "@jest/globals": "^29.7.0",
+    "@types/jest": "^29.5.11",
+    "@types/node": "^20.11.0",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
   }
 }

@@ -4,162 +4,143 @@ import { Card } from './ui/card';
 import { Textarea } from './ui/textarea';
 import { Badge } from './ui/badge';
 import { Separator } from './ui/separator';
-import { ArrowLeft, AlertCircle, Scale, Users } from 'lucide-react';
-import { Job } from '../App';
+import { ArrowLeft, AlertCircle, Scale, Users, Star } from 'lucide-react';
+import { AppHeader } from './AppHeader'; // Import AppHeader
+import { Footer } from './Footer'; // Import Footer
+
+// Re-defining Job interface for self-containment
+export interface Job {
+    id: string;
+    title: string;
+    description: string;
+    budget: number;
+    status: 'open' | 'in-progress' | 'completed' | 'dispute';
+    employer: string;
+    freelancer?: string;
+    bids?: number;
+}
 
 interface DisputeResolutionProps {
   job: Job;
   onBack: () => void;
   isDarkMode: boolean;
+  onToggleTheme: () => void; // New prop for theme toggle
+  // Placeholder props for AppHeader actions
+  onGetStarted: () => void;
+  onShowProfile: () => void;
 }
 
-export function DisputeResolution({ job, onBack, isDarkMode }: DisputeResolutionProps) {
+export function DisputeResolution({ job, onBack, isDarkMode, onToggleTheme, onGetStarted, onShowProfile }: DisputeResolutionProps) {
   const [disputeStep, setDisputeStep] = useState<'file' | 'pending' | 'voting'>('file');
   const [vote, setVote] = useState<'employer' | 'freelancer' | null>(null);
 
   const juryVotes = [
-    { id: '1', juror: 'addr1abc...', vote: 'employer', reputation: 4.9 },
-    { id: '2', juror: 'addr1def...', vote: 'freelancer', reputation: 4.7 },
-    { id: '3', juror: 'addr1ghi...', vote: 'freelancer', reputation: 4.8 },
+    { id: '1', juror: 'addr1abc...', vote: 'employer' as const, reputation: 4.9 },
+    { id: '2', juror: 'addr1def...', vote: 'freelancer' as const, reputation: 4.7 },
+    { id: '3', juror: 'addr1ghi...', vote: 'freelancer' as const, reputation: 4.8 },
     { id: '4', juror: 'addr1jkl...', vote: null, reputation: 4.6 },
     { id: '5', juror: 'addr1mno...', vote: null, reputation: 4.9 },
   ];
 
   const rootClass = isDarkMode ? 'bg-[#0a0a0a] text-white' : 'bg-white text-gray-900';
-  const headerClass = isDarkMode ? 'bg-[#0a0a0a]/80 border-white/10' : 'bg-white/80 border-gray-200';
-  const cardClass = isDarkMode ? 'bg-white/5 border border-primary/30' : 'bg-gray-50 border border-gray-300';
-  const textMutedClass = isDarkMode ? 'text-white/70' : 'text-gray-500';
+  const cardClass = isDarkMode ? 'bg-white/5 border border-primary/30' : 'bg-gray-100 border border-gray-300';
+  const inputClass = isDarkMode ? 'bg-white/10 border-white/30 text-white' : 'bg-gray-100 border-gray-300 text-gray-900';
+  const textForegroundClass = isDarkMode ? 'text-white' : 'text-gray-900';
+  const textMutedClass = isDarkMode ? 'text-white/70' : 'text-gray-600';
+
+  const formatAddress = (address: string) => `${address.slice(0, 8)}...${address.slice(-4)}`;
+
+  const handleFileDispute = () => {
+    // Logic to submit dispute to smart contract
+    console.log('Dispute filed for job:', job.id);
+    setDisputeStep('pending');
+  };
+
+  const handleVote = (selection: 'employer' | 'freelancer') => {
+    setVote(selection);
+    // Logic to submit vote to smart contract
+    console.log('Vote submitted for:', selection);
+  };
 
   return (
-    <div className={`min-h-screen ${rootClass} transition-colors`}>
-      {/* Header */}
-      <header className={`backdrop-blur-sm border-b sticky top-0 z-10 ${headerClass}`}>
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <Button variant="ghost" onClick={onBack} className={isDarkMode ? 'text-white hover:bg-white/10' : 'text-gray-900 hover:bg-gray-200'}>
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Back to Job
-          </Button>
-        </div>
-      </header>
+    <div className={`min-h-screen ${rootClass} transition-colors flex flex-col`}>
+      <AppHeader
+        onGetStarted={onGetStarted}
+        onShowProfile={onShowProfile}
+        isDarkMode={isDarkMode}
+        onToggleTheme={onToggleTheme}
+      />
+      <div className="flex-grow max-w-4xl mx-auto px-4 py-8 w-full">
+        <Button variant="ghost" onClick={onBack} className={`mb-6 ${isDarkMode ? 'text-white hover:bg-white/10' : 'text-gray-900 hover:bg-gray-200'}`}>
+            <ArrowLeft className="w-4 h-4 mr-2" /> Back to Job Detail
+        </Button>
 
-      <div className="max-w-4xl mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold mb-6 flex items-center gap-3">
-            <Scale className="w-8 h-8 text-primary" />
-            Dispute Resolution for "{job.title}"
-        </h1>
-        
-        <Card className={`p-8 rounded-xl shadow-xl space-y-6 ${cardClass}`}>
-          <div className="text-center space-y-2">
-            <Badge variant="destructive" className="text-sm px-3 py-1 mb-4">DISPUTE ACTIVE</Badge>
-            <p className={textMutedClass}>Escrow is currently locked in the Aiken smart contract.</p>
+        <Card className={`p-6 ${cardClass} space-y-6 shadow-xl`}>
+          <div className="flex items-center gap-4 border-b pb-4">
+            <Scale className="w-8 h-8 text-red-500" />
+            <h2 className={`text-3xl font-bold text-red-500`}>Dispute Resolution</h2>
+          </div>
+          
+          <div className="space-y-2">
+            <h3 className={`text-xl font-semibold ${textForegroundClass}`}>{job.title}</h3>
+            <p className={textMutedClass}>Escrow Amount: <span className="text-primary font-bold">{job.budget} ADA</span></p>
           </div>
 
-          {/* Dispute Filing Step */}
+          {/* FILE DISPUTE STEP */}
           {disputeStep === 'file' && (
             <div className="space-y-6">
-              <h2 className="text-xl font-semibold">File Your Case</h2>
-              <div className="bg-destructive/10 border border-destructive/30 rounded-lg p-4 flex items-start gap-3">
-                  <AlertCircle className="w-5 h-5 flex-shrink-0 text-destructive mt-1" />
-                  <p className={isDarkMode ? 'text-white/80' : 'text-gray-700'}>
-                      Provide a detailed, neutral explanation of the issue and why the funds should be released (or returned).
-                  </p>
+              <div className={`p-4 rounded-lg flex items-start gap-3 ${isDarkMode ? 'bg-yellow-800/20 text-yellow-300' : 'bg-yellow-100 text-yellow-800'}`}>
+                <AlertCircle className="w-5 h-5 flex-shrink-0 mt-1" />
+                <p className='text-sm'>
+                  Filing a dispute initiates the decentralized jury voting process. This action is irreversible and requires payment of a small network fee.
+                </p>
               </div>
 
-              <div className="space-y-4">
-                  <Textarea placeholder="Explain your position and provide evidence links..." rows={8} />
-                  <Button 
-                    className="w-full bg-gradient-to-r from-primary to-secondary hover:opacity-90"
-                    onClick={() => setDisputeStep('pending')}
-                  >
-                      Submit Case to Jury Pool
-                  </Button>
+              <div className="space-y-2">
+                <label htmlFor="reason" className={textForegroundClass}>Reason for Dispute (Mandatory Evidence)</label>
+                <Textarea 
+                  id="reason" 
+                  rows={6} 
+                  placeholder="Clearly explain why the work should be approved, rejected, or partially funded. Include block links to relevant chat history or file submissions."
+                  className={inputClass}
+                />
               </div>
+
+              <Button onClick={handleFileDispute} className="w-full bg-red-600 hover:bg-red-700">
+                Submit Dispute to Jury
+              </Button>
             </div>
           )}
 
-          {/* Pending / Jury Voting Step */}
-          {(disputeStep === 'pending' || disputeStep === 'voting') && (
+          {/* PENDING / VOTING STEP (Jury Assigned) */}
+          {disputeStep === 'pending' && (
             <div className="space-y-6">
-              <h2 className="text-xl font-semibold mb-4">Jury Voting In Progress</h2>
-
-              <div className={`p-4 rounded-lg space-y-3 ${isDarkMode ? 'bg-white/10' : 'bg-gray-100'}`}>
-                <div className="flex items-center gap-3 text-lg font-medium">
-                    <Users className="w-6 h-6 text-primary" />
-                    <span className={isDarkMode ? 'text-white' : 'text-gray-800'}>Jury Panel Status</span>
-                </div>
-                
+              <div className={`p-4 rounded-lg flex items-start gap-3 ${isDarkMode ? 'bg-green-800/20 text-green-300' : 'bg-green-100 text-green-800'}`}>
+                <Users className="w-5 h-5 flex-shrink-0 mt-1" />
+                <p className='text-sm'>
+                  Dispute successfully filed. A jury of 5 highly-reputable, anonymous users has been randomly selected and is reviewing the evidence.
+                </p>
+              </div>
+              
+              <div className={`p-4 rounded-lg ${isDarkMode ? 'bg-white/10 border border-white/20' : 'bg-white border border-gray-200'}`}>
+                <h4 className={`text-lg font-semibold mb-3 ${textForegroundClass}`}>Jury Status ({juryVotes.filter(j => j.vote !== null).length} / 5 Voted)</h4>
                 <ul className="space-y-2">
-                  {juryVotes.map((j) => (
-                    <li key={j.id} className="flex items-center justify-between p-3 rounded-md transition-colors border border-dashed border-border/50">
-                      <div className="flex items-center gap-2">
-                        <span className={`font-mono text-sm ${isDarkMode ? 'text-white/80' : 'text-gray-700'}`}>{j.juror.slice(0, 16)}...</span>
-                        <Badge variant="secondary" className="text-xs">Rep: {j.reputation}</Badge>
-                      </div>
-                      <span className={`font-semibold ${
-                          j.vote === 'employer' ? 'text-red-500' : 
-                          j.vote === 'freelancer' ? 'text-green-500' : 
-                          textMutedClass
-                      }`}>
-                          {j.vote ? `Voted for ${j.vote}` : 'Pending Vote'}
-                      </span>
+                  {juryVotes.map((j, index) => (
+                    <li key={j.id} className="flex items-center justify-between">
+                      <span className={textMutedClass}>Juror {index + 1} ({formatAddress(j.juror)})</span>
+                      <Badge 
+                        variant={j.vote === null ? 'outline' : j.vote === 'employer' ? 'default' : 'secondary'} 
+                        className={`w-20 justify-center capitalize ${j.vote === 'employer' && 'bg-red-500 hover:bg-red-500'} ${isDarkMode ? '' : 'text-gray-900 border-gray-300'}`}
+                      >
+                        {j.vote === 'employer' ? 'Client' : j.vote === 'freelancer' ? 'Worker' : 'Pending'}
+                      </Badge>
                     </li>
                   ))}
                 </ul>
               </div>
 
-              {/* Only show the voting UI if it's the 'voting' step and the user is a juror */}
-              {disputeStep === 'voting' && (
-                <div className="space-y-4">
-                  <h3 className="text-lg font-semibold">Your Decision (As a Juror)</h3>
-                  <p className={textMutedClass}>Vote on the outcome to ensure a fair resolution.</p>
-                  <div className="flex gap-4">
-                    <Button 
-                      className={`flex-1 ${vote === 'employer' ? 'bg-red-500 hover:bg-red-600' : 'bg-primary/20 hover:bg-primary/30'} ${isDarkMode ? 'text-white' : 'text-gray-900'}`}
-                      onClick={() => setVote('employer')}
-                    >
-                      Side with Employer
-                    </Button>
-                    <Button 
-                      className={`flex-1 ${vote === 'freelancer' ? 'bg-green-500 hover:bg-green-600' : 'bg-primary/20 hover:bg-primary/30'} ${isDarkMode ? 'text-white' : 'text-gray-900'}`}
-                      onClick={() => setVote('freelancer')}
-                    >
-                      Side with Freelancer
-                    </Button>
-                  </div>
-                  {vote && (
-                    <Button 
-                      className="w-full bg-gradient-to-r from-secondary to-primary hover:opacity-90"
-                      onClick={() => { /* Mock submission */ setDisputeStep('pending'); }}
-                    >
-                      Submit Final Vote for {vote.toUpperCase()}
-                    </Button>
-                  )}
-                </div>
-              )}
-
-              {/* Status Summary */}
-              <div className={`p-4 rounded-lg space-y-3 ${isDarkMode ? 'bg-white/10' : 'bg-gray-100'}`}>
-                <h3 className="text-lg font-semibold">Current Vote Tally</h3>
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between">
-                    <span className={textMutedClass}>Votes for Employer:</span>
-                    <span className="font-semibold text-red-400">1 vote</span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className={textMutedClass}>Votes for Freelancer:</span>
-                    <span className="font-semibold text-green-400">2 votes</span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className={textMutedClass}>Pending:</span>
-                    <span className="font-semibold">{juryVotes.filter(j => j.vote === null).length} votes</span>
-                  </div>
-                  <Separator className={isDarkMode ? 'my-2 bg-white/20' : 'my-2 bg-gray-300'} />
-                  <p className={textMutedClass}>3 votes needed for majority decision</p>
-                </div>
-              </div>
-
-              <div className={`p-4 rounded-lg ${isDarkMode ? 'bg-primary/10 border border-primary/30' : 'bg-primary/5 border border-primary/20'}`}>
-                <p className={isDarkMode ? 'text-white/80' : 'text-gray-700'}>
+              <div className={`p-4 rounded-lg ${isDarkMode ? 'bg-primary/10 border border-primary/30' : 'bg-primary/5 border border-primary/20'}`}>\
+                <p className={textMutedClass}>
                   You will be notified when all jury members have voted. The majority decision will be final and the escrow 
                   will be distributed accordingly.
                 </p>
@@ -172,6 +153,7 @@ export function DisputeResolution({ job, onBack, isDarkMode }: DisputeResolution
           )}
         </Card>
       </div>
+      <Footer isDarkMode={isDarkMode} />
     </div>
   );
 }
