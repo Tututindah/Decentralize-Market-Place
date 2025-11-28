@@ -67,8 +67,6 @@ Everything that matters lives on Cardano. No databases, no admins, no custody.
 
 ## Why This Project Must Be Funded
 - Largest real-world use case still missing on Cardano  
-- 100% on-chain (not hybrid) – true decentralization  
-- First production-grade use of Aiken at scale  
 - Atala PRISM integration – flagship showcase for decentralized identity  
 - Mainnet launch within 12 months of funding  
 
