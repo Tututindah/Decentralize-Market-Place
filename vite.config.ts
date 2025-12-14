@@ -15,7 +15,6 @@ export default defineConfig({
       util: 'util/',
       crypto: 'crypto-browserify',
       events: 'events/',
-      process: 'process/browser',
     },
   },
   define: {
@@ -24,7 +23,7 @@ export default defineConfig({
     'process.version': '"v16.0.0"',
   },
   optimizeDeps: {
-    include: ['buffer', 'process/browser', 'util', 'events', 'stream-browserify'],
+    include: ['buffer', 'process', 'util', 'events', 'stream-browserify'],
     esbuildOptions: {
       target: 'esnext',
       define: {

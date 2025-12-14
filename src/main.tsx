@@ -6,7 +6,7 @@ import { MeshProvider } from '@meshsdk/react'
 
 // Setup polyfills for Node.js globals required by Mesh SDK
 import { Buffer } from 'buffer'
-import process from 'process/browser'
+import process from 'process'
 
 window.Buffer = Buffer
 window.global = globalThis
