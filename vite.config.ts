@@ -18,9 +18,7 @@ export default defineConfig({
     },
   },
   define: {
-    'global': 'globalThis',
-    'process.env': '{}',
-    'process.version': '"v16.0.0"',
+    global: 'globalThis',
   },
   optimizeDeps: {
     include: ['buffer', 'process', 'util', 'events', 'stream-browserify'],
