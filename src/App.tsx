@@ -1,191 +1,140 @@
-import { useState } from 'react';
-import { useTheme } from './components/ThemeProvider';
-import { Landing } from './components/Landing';
-import { WalletConnect } from './components/WalletConnect';
-import { KYCVerification } from './components/KYCVerification';
-import { EmployerDashboard } from './components/EmployerDashboard';
-import { FreelancerDashboard } from './components/FreelancerDashboard';
-import { JobDetail } from './components/JobDetail';
-import { WorkSubmission } from './components/WorkSubmission';
-import { ReleaseApproval } from './components/ReleaseApproval';
-import { DisputeResolution } from './components/DisputeResolution';
-import { ThemeProvider } from './components/ThemeProvider';
-import { LearnMore } from './components/LearnMore';
-import { ShowProfile } from './components/ShowProfile';
-import { SettingProfile } from './components/SettingProfile';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { Toaster } from 'react-hot-toast'
+import { useState } from 'react'
+import { ThemeProvider } from './components/ThemeProvider'
+import { Landing } from './components/Landing'
+import Header from './components/Header'
+import Footer from './components/Footer'
+import WalletConnectPage from './pages/WalletConnectPage'
+import RoleSelectionPage from './pages/RoleSelectionPage'
+import JobsListingPage from './pages/JobsListingPage'
+import JobDetailPage from './pages/JobDetailPage'
+import CreateJobPage from './pages/CreateJobPage'
+import ManageJobsPage from './pages/ManageJobsPage'
+import SubmitProposalPage from './pages/SubmitProposalPage'
+import ManageBidsPage from './pages/ManageBidsPage'
+import EscrowPage from './pages/EscrowPage'
+import ProfilePage from './pages/ProfilePage'
+import KYCPage from './pages/KYCPage'
+import FreelancerDashboard from './pages/FreelancerDashboard'
+import EmployerDashboard from './pages/EmployerDashboard'
+import { WalletProvider } from './contexts/WalletContext'
+import { ChatProvider } from './contexts/ChatContext'
+import ChatButton from './components/ChatButton'
+import './index.css'
 
-export type UserType = 'employer' | 'freelancer' | null;
+function AppContent() {
+  const [showLanding, setShowLanding] = useState(true)
 
-export type Job = {
-  id: string;
-  title: string;
-  description: string;
-  budget: number;
-  status: 'open' | 'in-progress' | 'completed' | 'disputed';
-  employer: string;
-  freelancer?: string;
-  bids?: number;
-};
+  const handleGetStarted = () => {
+    setShowLanding(false)
+    window.location.href = '/jobs'
+  }
 
-function App() {
-  const [currentScreen, setCurrentScreen] = useState<string>('landing');
-  const [userType, setUserType] = useState<UserType>(null);
-  const [hasWallet, setHasWallet] = useState(false);
-  const [hasDID, setHasDID] = useState(false);
-  const [selectedJob, setSelectedJob] = useState<Job | null>(null);
+  const handleShowProfile = () => {
+    setShowLanding(false)
+  }
 
-  // Use global theme context
-  const { theme, toggleTheme } = useTheme();
-  const isDarkMode = theme === 'dark';
-
-  const handleWalletConnected = (type: UserType) => {
-    setHasWallet(true);
-    setUserType(type);
-    setCurrentScreen('kyc');
-  };
-
-  const handleKYCComplete = () => {
-    setHasDID(true);
-    if (userType === 'employer') {
-      setCurrentScreen('employer-dashboard');
-    } else {
-      setCurrentScreen('freelancer-dashboard');
-    }
-  };
-
-  const handleJobSelect = (job: Job) => {
-    setSelectedJob(job);
-    setCurrentScreen('job-detail');
-  };
-
-  const renderScreen = () => {
-    switch (currentScreen) {
-      case 'landing':
-        return (
-          <Landing
-            onGetStarted={() => setCurrentScreen('wallet-connect')}
-            onLearnMore={() => setCurrentScreen('learn-more')}
-            onShowProfile={() => setCurrentScreen('show-profile')}
-            onSettingProfile={() => setCurrentScreen('setting-profile')}
-          />
-        );
-      case 'learn-more':
-        return (
-          <LearnMore
-            onBack={() => setCurrentScreen('landing')}
-            isDarkMode={isDarkMode}
-            onToggleTheme={toggleTheme}
-            onGetStarted={() => setCurrentScreen('wallet-connect')}
-            onShowProfile={() => setCurrentScreen('show-profile')}
-          />
-        );
-      case 'show-profile':
-        return (
-          <ShowProfile
-            // Optionally, you can add theme props if needed in ShowProfile
-          />
-        );
-      case 'setting-profile':
-        return (
-          <SettingProfile isDarkMode={isDarkMode} />
-        );
-      case 'wallet-connect':
-        return (
-          <WalletConnect onConnect={handleWalletConnected} />
-        );
-      case 'kyc':
-        return (
-          <KYCVerification
-            onComplete={handleKYCComplete}
-            onSkip={handleKYCComplete}
-            isDarkMode={isDarkMode}
-            onToggleTheme={toggleTheme}
-            onGetStarted={() => setCurrentScreen('wallet-connect')}
-            onShowProfile={() => setCurrentScreen('show-profile')}
-          />
-        );
-      case 'employer-dashboard':
-        return (
-          <EmployerDashboard
-            onJobSelect={handleJobSelect}
-            onGetStarted={() => setCurrentScreen('wallet-connect')}
-            onShowProfile={() => setCurrentScreen('show-profile')}
-          />
-        );
-      case 'freelancer-dashboard':
-        return (
-          <FreelancerDashboard
-            onJobSelect={handleJobSelect}
-            onShowProfile={() => setCurrentScreen('show-profile')}
-            onSettingProfile={() => setCurrentScreen('setting-profile')}
-            onGetStarted={() => setCurrentScreen('wallet-connect')}
-          />
-        );
-      case 'job-detail':
-        return (
-          <JobDetail
-            job={selectedJob! as any} // Type assertion for compatibility
-            userType={userType! as any}
-            onBack={() => setCurrentScreen(userType === 'employer' ? 'employer-dashboard' : 'freelancer-dashboard')}
-            onWorkSubmission={() => setCurrentScreen('work-submission')}
-            onApproval={() => setCurrentScreen('release-approval')}
-            onDispute={() => setCurrentScreen('dispute')}
-            isDarkMode={isDarkMode}
-            onToggleTheme={toggleTheme}
-            onGetStarted={() => setCurrentScreen('wallet-connect')}
-            onShowProfile={() => setCurrentScreen('show-profile')}
-          />
-        );
-      case 'work-submission':
-        return (
-          <WorkSubmission
-            job={selectedJob!}
-            onSubmit={() => setCurrentScreen('job-detail')}
-            onBack={() => setCurrentScreen('job-detail')}
-          />
-        );
-      case 'release-approval':
-        return (
-          <ReleaseApproval
-            job={selectedJob! as any}
-            onRelease={() => setCurrentScreen('employer-dashboard')}
-            onBack={() => setCurrentScreen('job-detail')}
-            isDarkMode={isDarkMode}
-            onToggleTheme={toggleTheme}
-            onGetStarted={() => setCurrentScreen('wallet-connect')}
-            onShowProfile={() => setCurrentScreen('show-profile')}
-          />
-        );
-      case 'dispute':
-        return (
-          <DisputeResolution
-            job={selectedJob! as any}
-            onBack={() => setCurrentScreen('job-detail')}
-            isDarkMode={isDarkMode}
-            onToggleTheme={toggleTheme}
-            onGetStarted={() => setCurrentScreen('wallet-connect')}
-            onShowProfile={() => setCurrentScreen('show-profile')}
-          />
-        );
-      default:
-        return (
-          <Landing
-            onGetStarted={() => setCurrentScreen('wallet-connect')}
-            onLearnMore={() => setCurrentScreen('learn-more')}
-            onShowProfile={() => setCurrentScreen('show-profile')}
-            onSettingProfile={() => setCurrentScreen('setting-profile')}
-          />
-        );
-    }
-  };
+  const handleLearnMore = () => {
+    console.log('Learn more clicked')
+  }
 
   return (
-    <ThemeProvider>
-      <div className="min-h-screen bg-background text-foreground font-sans">
-        {renderScreen()}
+    <BrowserRouter>
+      <div className="min-h-screen bg-background">
+        <Routes>
+          {/* Landing Page */}
+          <Route path="/" element={showLanding ? (
+            <Landing
+              onGetStarted={handleGetStarted}
+              onLearnMore={handleLearnMore}
+              onShowProfile={handleShowProfile}
+            />
+          ) : <Navigate to="/jobs" replace />} />
+
+          {/* Wallet Connection (no header) */}
+          <Route path="/connect-wallet" element={<WalletConnectPage />} />
+
+          {/* Role Selection (no header) */}
+          <Route path="/role-selection" element={<RoleSelectionPage />} />
+
+          {/* All other pages with Header and Footer */}
+          <Route path="/*" element={
+            <div className="flex flex-col min-h-screen">
+              <Header />
+              <main className="container mx-auto px-4 py-8 max-w-7xl flex-grow">
+                <Routes>
+                  {/* Public routes */}
+                  <Route path="/jobs" element={<JobsListingPage />} />
+                  <Route path="/jobs/:jobId" element={<JobDetailPage />} />
+                  <Route path="/jobs/:jobId/bid" element={<SubmitProposalPage />} />
+                  
+                  {/* Employer routes */}
+                  <Route path="/employer/dashboard" element={<EmployerDashboard />} />
+                  <Route path="/employer/jobs" element={<ManageJobsPage />} />
+                  <Route path="/employer/escrows" element={<EscrowPage />} />
+                  <Route path="/create-job" element={<CreateJobPage />} />
+                  
+                  {/* Freelancer routes */}
+                  <Route path="/freelancer/dashboard" element={<FreelancerDashboard />} />
+                  <Route path="/freelancer/bids" element={<ManageBidsPage />} />
+                  <Route path="/freelancer/escrows" element={<EscrowPage />} />
+                  
+                  {/* Common routes */}
+                  <Route path="/escrow" element={<EscrowPage />} />
+                  <Route path="/profile" element={<ProfilePage />} />
+                  <Route path="/kyc" element={<KYCPage />} />
+                </Routes>
+              </main>
+              <Footer />
+              
+              {/* Global chat button */}
+              <ChatButton />
+            </div>
+          } />
+        </Routes>
+        
+        {/* Toast notifications */}
+        <Toaster
+          position="top-right"
+          toastOptions={{
+            duration: 4000,
+            style: {
+              background: '#1e293b',
+              color: '#f1f5f9',
+              border: '1px solid #475569',
+              borderRadius: '0.5rem',
+              boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.3)',
+            },
+            success: {
+              iconTheme: {
+                primary: '#22c55e',
+                secondary: '#fff',
+              },
+            },
+            error: {
+              iconTheme: {
+                primary: '#ef4444',
+                secondary: '#fff',
+              },
+            },
+          }}
+        />
       </div>
-    </ThemeProvider>
-  );
+    </BrowserRouter>
+  )
 }
 
-export default App;
+function App() {
+  return (
+    <ThemeProvider>
+      <WalletProvider>
+        <ChatProvider>
+          <AppContent />
+        </ChatProvider>
+      </WalletProvider>
+    </ThemeProvider>
+  )
+}
+
+export default App

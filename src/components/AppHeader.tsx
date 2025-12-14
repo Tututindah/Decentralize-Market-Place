@@ -1,19 +1,25 @@
 import { Button } from "./ui/button";
-import { Sparkles, Sun, Moon } from "lucide-react"; // Import Sun and Moon
+import { Sparkles, Sun, Moon } from "lucide-react";
 import { motion } from "framer-motion";
 import React from "react";
+import { useWallet } from "../contexts/WalletContext";
+import { useNavigate } from "react-router-dom";
 
 interface AppHeaderProps {
   onGetStarted: () => void;
   onShowProfile: () => void;
   isDarkMode: boolean;
-  onToggleTheme: () => void; // New prop for theme toggle
+  onToggleTheme: () => void;
 }
 
-export const AppHeader: React.FC<AppHeaderProps> = ({ onGetStarted, onShowProfile, isDarkMode, onToggleTheme }) => (
+export const AppHeader: React.FC<AppHeaderProps> = ({ onShowProfile, isDarkMode, onToggleTheme }) => {
+  const { connected, address, disconnectWallet } = useWallet();
+  const navigate = useNavigate();
+
+  return (
   <motion.header
     className={`border-b backdrop-blur-sm transition-colors sticky top-0 z-10 ${
-      isDarkMode ? 'border-white/10 bg-[#0a0a0a]/80' : 'border-gray-200 bg-white/80'
+      isDarkMode ? 'border-white/10 bg-black/80' : 'border-gray-200 bg-white/80'
     }`}
     initial={{ y: -40, opacity: 0 }}
     animate={{ y: 0, opacity: 1 }}
@@ -30,31 +36,47 @@ export const AppHeader: React.FC<AppHeaderProps> = ({ onGetStarted, onShowProfil
           >
             <Sparkles className="w-5 h-5 text-white fill-white/50" />
           </button>
-          <h1 className={`text-xl font-bold transition-colors ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
-            TrustFlow
+          <h1 className={`text-xl font-bold transition-colors ${isDarkMode ? 'text-white' : 'text-black'}`}>
+            DecentGigs
           </h1>
         </div>
 
         <div className="flex items-center gap-3">
-            {/* Theme Toggle Button */}
             <Button 
                 variant="ghost" 
                 size="icon" 
                 onClick={onToggleTheme} 
-                className={`transition-colors ${isDarkMode ? 'text-white hover:bg-white/10' : 'text-gray-900 hover:bg-gray-200'}`}
+                className={`transition-colors ${isDarkMode ? 'text-white hover:bg-zinc-800' : 'text-black hover:bg-gray-200'}`}
                 title={isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
             >
                 {isDarkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
             </Button>
 
-            <Button
-                onClick={onGetStarted}
+            {connected && address ? (
+              <div className="flex items-center gap-2">
+                <div className={`text-sm ${isDarkMode ? 'text-white/70' : 'text-black/70'}`}>
+                  {address.slice(0, 8)}...{address.slice(-6)}
+                </div>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={disconnectWallet}
+                  className={isDarkMode ? 'border-white/20 text-white hover:bg-zinc-800' : ''}
+                >
+                  Disconnect
+                </Button>
+              </div>
+            ) : (
+              <Button
+                onClick={() => navigate('/connect-wallet')}
                 className="bg-gradient-to-r from-primary to-secondary hover:opacity-90 transition-opacity font-semibold"
-            >
+              >
                 Connect Wallet
-            </Button>
+              </Button>
+            )}
         </div>
       </div>
     </div>
   </motion.header>
-);
+  );
+};
