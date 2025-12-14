@@ -65,6 +65,14 @@ Everything that matters lives on Cardano. No databases, no admins, no custody.
 - Atala PRISM integration – flagship showcase for decentralized identity  
 - Mainnet launch within 12 months of funding  
 
+
+preprod TX hash 
+
+- **Jobs Listing:** [JobsListing](https://preprod.cexplorer.io/tx/40b0abb68332cf9feebd951510cd67fbcf0b11e0a72574fdd299e363a15efb9c)
+- **Bid and Escrow Creation:** [Escrow Creation](https://preprod.cexplorer.io/tx/a741491dd3a4706ed0202a01a1a3d11b4af1e3081173491342b828e5b468872a)
+- **Realease Payment:** [Realease Payment](https://preprod.cexplorer.io/tx/f5ad96e29706a63b8ea8915787e69b7671b438bb12d50569a20acd058249cf0f)
+
+
 ## Links
 - **GitHub Repository:** [DeCentGigs](https://github.com/Surabaya-Blockchain-Alliance/Decentralize-Market-Place)  
 - **MockUp and WireFrame:** [View Here](https://decentralize-market-place.vercel.app)
