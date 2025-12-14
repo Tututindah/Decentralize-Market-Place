@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import path from 'path'
 
 export default defineConfig({
   plugins: [react()],
@@ -8,20 +9,22 @@ export default defineConfig({
   },
   resolve: {
     alias: {
+      '@': path.resolve(__dirname, './src'),
       buffer: 'buffer/',
       stream: 'stream-browserify',
       util: 'util/',
       crypto: 'crypto-browserify',
       events: 'events/',
+      process: 'process/browser',
     },
   },
   define: {
     'global': 'globalThis',
-    'process.env': {},
-    'process.version': JSON.stringify('v16.0.0'),
+    'process.env': '{}',
+    'process.version': '"v16.0.0"',
   },
   optimizeDeps: {
-    include: ['buffer', 'process', 'util', 'events', 'stream-browserify'],
+    include: ['buffer', 'process/browser', 'util', 'events', 'stream-browserify'],
     esbuildOptions: {
       target: 'esnext',
       define: {
@@ -31,8 +34,12 @@ export default defineConfig({
   },
   build: {
     target: 'esnext',
+    commonjsOptions: {
+      transformMixedEsModules: true,
+    },
     rollupOptions: {
-      external: [],
-    }
+      plugins: [],
+    },
+    sourcemap: false,
   }
 })
