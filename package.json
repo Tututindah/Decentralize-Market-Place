@@ -2,11 +2,12 @@
   "name": "decentgigs-web",
   "version": "1.0.0",
   "description": "DecentGigs - Decentralized Freelance Platform Web Interface",
-  "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
+    "dev": "next dev",
+    "dev:socket": "node server.js",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
   },
   "dependencies": {
     "@meshsdk/core": "^1.9.0-beta.89",
@@ -14,6 +15,7 @@
     "@meshsdk/core-cst": "^1.9.0-beta.89",
     "@meshsdk/react": "^1.9.0-beta.89",
     "@radix-ui/react-slot": "^1.2.4",
+    "@supabase/supabase-js": "^2.87.1",
     "buffer": "^6.0.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
@@ -21,26 +23,29 @@
     "events": "^3.3.0",
     "framer-motion": "^12.23.26",
     "lucide-react": "^0.561.0",
+    "next": "^16.0.10",
     "process": "^0.11.10",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3",
     "react-hot-toast": "^2.6.0",
-    "react-router-dom": "^6.20.0",
     "simple-peer": "^9.11.1",
+    "socket.io": "^4.8.1",
     "socket.io-client": "^4.8.1",
     "stream-browserify": "^3.0.0",
     "tailwind-merge": "^3.4.0",
-    "util": "^0.12.5"
+    "util": "^0.12.5",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
+    "@types/node": "^20.11.0",
     "@types/react": "^18.2.43",
     "@types/react-dom": "^18.2.17",
     "@types/simple-peer": "^9.11.9",
-    "@vitejs/plugin-react": "^4.2.1",
     "autoprefixer": "^10.4.16",
+    "eslint": "^8.56.0",
+    "eslint-config-next": "^14.2.0",
     "postcss": "^8.4.32",
     "tailwindcss": "^3.4.0",
-    "typescript": "^5.3.3",
-    "vite": "^5.0.8"
+    "typescript": "^5.3.3"
   }
 }
