@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { useWallet } from '@/contexts/WalletContext'
+import { useWallet } from '@/app/src/contexts/WalletContext'
 import { Briefcase, DollarSign, Clock, Eye, CheckCircle, XCircle } from 'lucide-react'
 import './ManageJobs.css'
 import { useRouter } from 'next/navigation'
@@ -279,3 +279,4 @@ export default function ManageJobsPage() {
     </div>
   )
 }
+

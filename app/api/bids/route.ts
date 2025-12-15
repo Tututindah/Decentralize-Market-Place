@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { proposalService } from '@/services/proposal.service'
+import { proposalService } from '@/app/src/services/proposal.service'
 
 // GET /api/bids?jobId=xxx or freelancerId=xxx
 export async function GET(request: NextRequest) {
@@ -42,12 +42,11 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const bid = await proposalService.submitProposal(
-      jobId,
-      freelancerId,
-      freelancerDid,
-      proposalData
-    )
+    const bid = await proposalService.submitProposal({
+      job_id: jobId,
+      freelancer_id: freelancerId,
+      ...proposalData
+    })
 
     return NextResponse.json({ bid })
   } catch (error: any) {
@@ -58,3 +57,4 @@ export async function POST(request: NextRequest) {
     )
   }
 }
+

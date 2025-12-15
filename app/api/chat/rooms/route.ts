@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { chatService } from '@/services/chat.service'
+import { chatService } from '@/app/src/services/chat.service'
 
 // GET /api/chat/rooms?userId=xxx
 export async function GET(request: NextRequest) {
@@ -14,7 +14,7 @@ export async function GET(request: NextRequest) {
       )
     }
 
-    const rooms = await chatService.getUserRooms(userId)
+    const rooms = await chatService.getRoomsByUser(userId)
     return NextResponse.json({ rooms })
   } catch (error: any) {
     console.error('Error fetching chat rooms:', error)
@@ -29,16 +29,16 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    const { user1Id, user2Id, jobId } = body
+    const { jobId, employerId, freelancerId } = body
 
-    if (!user1Id || !user2Id) {
+    if (!jobId || !employerId || !freelancerId) {
       return NextResponse.json(
-        { error: 'user1Id and user2Id are required' },
+        { error: 'jobId, employerId, and freelancerId are required' },
         { status: 400 }
       )
     }
 
-    const room = await chatService.getOrCreateRoom(user1Id, user2Id, jobId)
+    const room = await chatService.getOrCreateRoom(jobId, employerId, freelancerId)
     return NextResponse.json({ room })
   } catch (error: any) {
     console.error('Error creating chat room:', error)
@@ -48,3 +48,4 @@ export async function POST(request: NextRequest) {
     )
   }
 }
+

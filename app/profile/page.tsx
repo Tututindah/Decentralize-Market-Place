@@ -1,11 +1,17 @@
 'use client'
-import { useState, useEffect } from 'react'
-import { useWallet } from '@/contexts/WalletContext'
-import './ProfilePage.css'
+import { useState } from 'react'
+import { useWallet } from '@/app/src/contexts/WalletContext'
+import { useTheme } from '@/app/src/components/ThemeProvider'
+import Header from '@/app/src/components/Header'
+import { Footer } from '@/app/src/components/Footer'
+import { User, Award, TrendingUp, Calendar, Wallet, Star } from 'lucide-react'
+
+export const dynamic = 'force-dynamic'
 
 export default function ProfilePage() {
   const { connected, address } = useWallet()
-  const [reputation, setReputation] = useState({
+  const { isDarkMode } = useTheme()
+  const [reputation] = useState({
     totalJobs: 15,
     completedJobs: 13,
     cancelledJobs: 2,
@@ -15,17 +21,6 @@ export default function ProfilePage() {
     trustScore: 88
   })
 
-  if (!connected) {
-    return (
-      <div className="profile-page">
-        <div className="card">
-          <h1>Profile</h1>
-          <p>Please connect your wallet to view your profile</p>
-        </div>
-      </div>
-    )
-  }
-
   const completionRate = ((reputation.completedJobs / reputation.totalJobs) * 100).toFixed(1)
   const badge = reputation.trustScore >= 90 ? '🏆 Elite' 
     : reputation.trustScore >= 80 ? '⭐ Expert'
@@ -33,127 +28,266 @@ export default function ProfilePage() {
     : reputation.trustScore >= 60 ? '👍 Good'
     : '🆕 New'
 
+  if (!connected) {
+    return (
+      <div className={`min-h-screen transition-colors ${
+        isDarkMode ? 'bg-black text-white' : 'bg-white text-black'
+      }`}>
+        <Header />
+        <div className="flex items-center justify-center min-h-[80vh]">
+          <div className={`max-w-md w-full mx-4 p-8 rounded-2xl backdrop-blur-sm transition-colors ${
+            isDarkMode 
+              ? 'bg-white/5 border border-white/10' 
+              : 'bg-gray-50 border border-gray-200'
+          }`}>
+            <User className="w-16 h-16 mx-auto mb-4 text-primary" />
+            <h1 className="text-3xl font-bold text-center mb-4 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+              Profile
+            </h1>
+            <p className={`text-center ${
+              isDarkMode ? 'text-gray-400' : 'text-gray-600'
+            }`}>
+              Please connect your wallet to view your profile
+            </p>
+          </div>
+        </div>
+        <Footer />
+      </div>
+    )
+  }
+
   return (
-    <div className="profile-page">
-      <h1>👤 Your Profile</h1>
+    <div className={`min-h-screen transition-colors ${
+      isDarkMode ? 'bg-black text-white' : 'bg-white text-black'
+    }`}>
+      <Header />
+      
+      <div className="max-w-7xl mx-auto px-4 py-8">
+        {/* Page Header */}
+        <div className="mb-8">
+          <h1 className="text-4xl font-bold mb-2 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+            Your Profile
+          </h1>
+          <p className={`text-lg ${
+            isDarkMode ? 'text-gray-400' : 'text-gray-600'
+          }`}>
+            Manage your reputation and track your achievements
+          </p>
+        </div>
 
-      <div className="grid grid-2">
-        <div className="card profile-card">
-          <div className="profile-header">
-            <div className="profile-avatar">
-              {address?.substring(0, 2).toUpperCase()}
+        {/* Profile Cards Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+          {/* Profile Info Card */}
+          <div className={`p-6 rounded-2xl backdrop-blur-sm transition-all duration-300 hover:scale-[1.02] ${
+            isDarkMode 
+              ? 'bg-white/5 border border-white/10 hover:bg-white/10' 
+              : 'bg-gray-50 border border-gray-200 hover:bg-gray-100'
+          }`}>
+            <div className="flex items-start gap-4 mb-6">
+              <div className="w-20 h-20 rounded-full bg-gradient-to-r from-primary to-secondary flex items-center justify-center text-white text-2xl font-bold">
+                {address?.substring(0, 2).toUpperCase()}
+              </div>
+              <div className="flex-1">
+                <h2 className="text-2xl font-bold mb-2">Freelancer</h2>
+                <span className={`inline-block px-4 py-1.5 rounded-full text-sm font-semibold ${
+                  isDarkMode 
+                    ? 'bg-primary/20 text-primary border border-primary/30' 
+                    : 'bg-primary/10 text-primary border border-primary/20'
+                }`}>
+                  {badge}
+                </span>
+              </div>
             </div>
-            <div>
-              <h2>Freelancer</h2>
-              <div className="badge badge-success">{badge}</div>
+
+            <div className="space-y-4">
+              <div className="flex items-center gap-3">
+                <Wallet className={`w-5 h-5 ${
+                  isDarkMode ? 'text-gray-400' : 'text-gray-600'
+                }`} />
+                <div className="flex-1">
+                  <p className={`text-sm mb-1 ${
+                    isDarkMode ? 'text-gray-400' : 'text-gray-600'
+                  }`}>Wallet Address</p>
+                  <p className="font-mono text-sm">
+                    {address?.substring(0, 20)}...
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-3">
+                <Star className={`w-5 h-5 ${
+                  isDarkMode ? 'text-gray-400' : 'text-gray-600'
+                }`} />
+                <div className="flex-1">
+                  <p className={`text-sm mb-1 ${
+                    isDarkMode ? 'text-gray-400' : 'text-gray-600'
+                  }`}>Trust Score</p>
+                  <p className="text-2xl font-bold text-primary">
+                    {reputation.trustScore}/100
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-3">
+                <Calendar className={`w-5 h-5 ${
+                  isDarkMode ? 'text-gray-400' : 'text-gray-600'
+                }`} />
+                <div className="flex-1">
+                  <p className={`text-sm mb-1 ${
+                    isDarkMode ? 'text-gray-400' : 'text-gray-600'
+                  }`}>Member Since</p>
+                  <p className="font-semibold">December 2024</p>
+                </div>
+              </div>
             </div>
           </div>
 
-          <div className="profile-info">
-            <div className="info-row">
-              <span className="info-label">Wallet:</span>
-              <span className="info-value">
-                {address?.substring(0, 20)}...
-              </span>
+          {/* Statistics Card */}
+          <div className={`p-6 rounded-2xl backdrop-blur-sm transition-all duration-300 hover:scale-[1.02] ${
+            isDarkMode 
+              ? 'bg-white/5 border border-white/10 hover:bg-white/10' 
+              : 'bg-gray-50 border border-gray-200 hover:bg-gray-100'
+          }`}>
+            <div className="flex items-center gap-3 mb-6">
+              <TrendingUp className="w-6 h-6 text-primary" />
+              <h3 className="text-xl font-bold">Statistics</h3>
             </div>
-            <div className="info-row">
-              <span className="info-label">Trust Score:</span>
-              <span className="info-value trust-score">
-                {reputation.trustScore}/100
-              </span>
-            </div>
-            <div className="info-row">
-              <span className="info-label">Member Since:</span>
-              <span className="info-value">Dec 2024</span>
+            
+            <div className="space-y-3">
+              <div className="flex justify-between items-center">
+                <span className={isDarkMode ? 'text-gray-400' : 'text-gray-600'}>
+                  Total Jobs
+                </span>
+                <span className="font-bold text-lg">{reputation.totalJobs}</span>
+              </div>
+
+              <div className="flex justify-between items-center">
+                <span className={isDarkMode ? 'text-gray-400' : 'text-gray-600'}>
+                  Completed
+                </span>
+                <span className="font-bold text-lg text-green-500">
+                  {reputation.completedJobs}
+                </span>
+              </div>
+
+              <div className="flex justify-between items-center">
+                <span className={isDarkMode ? 'text-gray-400' : 'text-gray-600'}>
+                  Cancelled
+                </span>
+                <span className="font-bold text-lg text-red-500">
+                  {reputation.cancelledJobs}
+                </span>
+              </div>
+
+              <div className="flex justify-between items-center">
+                <span className={isDarkMode ? 'text-gray-400' : 'text-gray-600'}>
+                  Disputes
+                </span>
+                <span className="font-bold text-lg">{reputation.disputeCount}</span>
+              </div>
+
+              <div className={`flex justify-between items-center pt-3 border-t ${
+                isDarkMode ? 'border-white/10' : 'border-gray-200'
+              }`}>
+                <span className={isDarkMode ? 'text-gray-400' : 'text-gray-600'}>
+                  Completion Rate
+                </span>
+                <span className="font-bold text-lg text-green-500">
+                  {completionRate}%
+                </span>
+              </div>
+
+              <div className="flex justify-between items-center">
+                <span className={isDarkMode ? 'text-gray-400' : 'text-gray-600'}>
+                  Average Rating
+                </span>
+                <span className="font-bold text-lg">⭐ {reputation.averageRating}/100</span>
+              </div>
+
+              <div className={`flex justify-between items-center pt-3 mt-3 border-t ${
+                isDarkMode ? 'border-white/10' : 'border-gray-200'
+              }`}>
+                <span className="font-semibold">Total Earned</span>
+                <span className="font-bold text-xl bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+                  ${reputation.totalEarned.toLocaleString()} USDM
+                </span>
+              </div>
             </div>
           </div>
         </div>
 
-        <div className="card stats-card">
-          <h3>📊 Statistics</h3>
-          
-          <div className="stat-row">
-            <span className="stat-label">Total Jobs:</span>
-            <span className="stat-value">{reputation.totalJobs}</span>
+        {/* Achievements Card */}
+        <div className={`p-6 rounded-2xl backdrop-blur-sm mb-8 ${
+          isDarkMode 
+            ? 'bg-white/5 border border-white/10' 
+            : 'bg-gray-50 border border-gray-200'
+        }`}>
+          <div className="flex items-center gap-3 mb-6">
+            <Award className="w-6 h-6 text-primary" />
+            <h3 className="text-xl font-bold">Achievements</h3>
           </div>
           
-          <div className="stat-row">
-            <span className="stat-label">Completed:</span>
-            <span className="stat-value success">{reputation.completedJobs}</span>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {[
+              { icon: '🎯', name: 'First Job' },
+              { icon: '⭐', name: '10 Completed' },
+              { icon: '💎', name: '$10K Earned' },
+              { icon: '✅', name: 'KYC Verified' }
+            ].map((achievement, index) => (
+              <div
+                key={index}
+                className={`p-4 rounded-xl text-center transition-all duration-300 hover:scale-105 ${
+                  isDarkMode 
+                    ? 'bg-white/5 border border-white/10 hover:bg-white/10' 
+                    : 'bg-white border border-gray-200 hover:bg-gray-50'
+                }`}
+              >
+                <div className="text-4xl mb-2">{achievement.icon}</div>
+                <div className="text-sm font-semibold">{achievement.name}</div>
+              </div>
+            ))}
           </div>
+        </div>
+
+        {/* Reputation Timeline Card */}
+        <div className={`p-6 rounded-2xl backdrop-blur-sm ${
+          isDarkMode 
+            ? 'bg-white/5 border border-white/10' 
+            : 'bg-gray-50 border border-gray-200'
+        }`}>
+          <h3 className="text-xl font-bold mb-6 flex items-center gap-3">
+            <TrendingUp className="w-6 h-6 text-primary" />
+            Reputation Timeline
+          </h3>
           
-          <div className="stat-row">
-            <span className="stat-label">Cancelled:</span>
-            <span className="stat-value danger">{reputation.cancelledJobs}</span>
-          </div>
-          
-          <div className="stat-row">
-            <span className="stat-label">Disputes:</span>
-            <span className="stat-value">{reputation.disputeCount}</span>
-          </div>
-          
-          <div className="stat-row">
-            <span className="stat-label">Completion Rate:</span>
-            <span className="stat-value success">{completionRate}%</span>
-          </div>
-          
-          <div className="stat-row">
-            <span className="stat-label">Average Rating:</span>
-            <span className="stat-value">⭐ {reputation.averageRating}/100</span>
-          </div>
-          
-          <div className="stat-row highlight">
-            <span className="stat-label">Total Earned:</span>
-            <span className="stat-value">${reputation.totalEarned.toLocaleString()} USDM</span>
+          <div className="space-y-4">
+            {[
+              { date: 'Dec 10, 2024', content: '✅ Completed "Web3 Landing Page" - Rating: 95/100' },
+              { date: 'Dec 5, 2024', content: '✅ Completed "Smart Contract Audit" - Rating: 98/100' },
+              { date: 'Nov 28, 2024', content: '🆔 KYC Verification Completed - Advanced Level' }
+            ].map((item, index) => (
+              <div
+                key={index}
+                className={`p-4 rounded-xl border-l-4 border-primary transition-all duration-300 hover:translate-x-2 ${
+                  isDarkMode 
+                    ? 'bg-white/5 border-r border-t border-b border-white/10' 
+                    : 'bg-white border-r border-t border-b border-gray-200'
+                }`}
+              >
+                <div className={`text-sm mb-1 ${
+                  isDarkMode ? 'text-gray-400' : 'text-gray-600'
+                }`}>
+                  {item.date}
+                </div>
+                <div className="font-medium">{item.content}</div>
+              </div>
+            ))}
           </div>
         </div>
       </div>
 
-      <div className="card">
-        <h3>🏆 Achievements</h3>
-        <div className="achievements">
-          <div className="achievement">
-            <div className="achievement-icon">🎯</div>
-            <div className="achievement-name">First Job</div>
-          </div>
-          <div className="achievement">
-            <div className="achievement-icon">⭐</div>
-            <div className="achievement-name">10 Completed</div>
-          </div>
-          <div className="achievement">
-            <div className="achievement-icon">💎</div>
-            <div className="achievement-name">$10K Earned</div>
-          </div>
-          <div className="achievement">
-            <div className="achievement-icon">✅</div>
-            <div className="achievement-name">KYC Verified</div>
-          </div>
-        </div>
-      </div>
-
-      <div className="card">
-        <h3>📈 Reputation Timeline</h3>
-        <div className="timeline">
-          <div className="timeline-item">
-            <div className="timeline-date">Dec 10, 2024</div>
-            <div className="timeline-content">
-              ✅ Completed "Web3 Landing Page" - Rating: 95/100
-            </div>
-          </div>
-          <div className="timeline-item">
-            <div className="timeline-date">Dec 5, 2024</div>
-            <div className="timeline-content">
-              ✅ Completed "Smart Contract Audit" - Rating: 98/100
-            </div>
-          </div>
-          <div className="timeline-item">
-            <div className="timeline-date">Nov 28, 2024</div>
-            <div className="timeline-content">
-              🆔 KYC Verification Completed - Advanced Level
-            </div>
-          </div>
-        </div>
-      </div>
+      <Footer />
     </div>
   )
 }
+

@@ -1,20 +1,21 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { chatService } from '@/services/chat.service'
+import { chatService } from '@/app/src/services/chat.service'
 
-// GET /api/chat/unread?userId=xxx
+// GET /api/chat/unread?roomId=xxx&userId=xxx
 export async function GET(request: NextRequest) {
   try {
     const searchParams = request.nextUrl.searchParams
+    const roomId = searchParams.get('roomId')
     const userId = searchParams.get('userId')
 
-    if (!userId) {
+    if (!roomId || !userId) {
       return NextResponse.json(
-        { error: 'userId is required' },
+        { error: 'roomId and userId are required' },
         { status: 400 }
       )
     }
 
-    const unreadCount = await chatService.getUnreadCount(userId)
+    const unreadCount = await chatService.getUnreadCount(roomId, userId)
     return NextResponse.json({ unreadCount })
   } catch (error: any) {
     console.error('Error fetching unread count:', error)
@@ -24,3 +25,4 @@ export async function GET(request: NextRequest) {
     )
   }
 }
+

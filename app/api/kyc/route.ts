@@ -1,21 +1,28 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { kycService } from '@/services/kyc.service'
+import { kycService } from '@/app/src/services/kyc.service'
 
-// POST /api/kyc/submit - Submit mock KYC
+// POST /api/kyc/submit - Submit KYC
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    const { walletAddress } = body
+    const { userId, fullName, email, documentType, documentNumber } = body
 
-    if (!walletAddress) {
+    if (!userId || !fullName) {
       return NextResponse.json(
-        { error: 'walletAddress is required' },
+        { error: 'userId and fullName are required' },
         { status: 400 }
       )
     }
 
-    const user = await kycService.submitMockKYC(walletAddress)
-    return NextResponse.json({ user })
+    const result = await kycService.submitKYC({
+      userId,
+      fullName,
+      email,
+      documentType,
+      documentNumber,
+      verificationMethod: 'mock'
+    })
+    return NextResponse.json(result)
   } catch (error: any) {
     console.error('Error submitting KYC:', error)
     return NextResponse.json(
@@ -25,21 +32,21 @@ export async function POST(request: NextRequest) {
   }
 }
 
-// GET /api/kyc/status?walletAddress=xxx
+// GET /api/kyc/status?userId=xxx
 export async function GET(request: NextRequest) {
   try {
     const searchParams = request.nextUrl.searchParams
-    const walletAddress = searchParams.get('walletAddress')
+    const userId = searchParams.get('userId')
 
-    if (!walletAddress) {
+    if (!userId) {
       return NextResponse.json(
-        { error: 'walletAddress is required' },
+        { error: 'userId is required' },
         { status: 400 }
       )
     }
 
-    const status = await kycService.getKYCStatus(walletAddress)
-    return NextResponse.json(status)
+    const details = await kycService.getKYCDetails(userId)
+    return NextResponse.json(details)
   } catch (error: any) {
     console.error('Error fetching KYC status:', error)
     return NextResponse.json(
@@ -48,3 +55,4 @@ export async function GET(request: NextRequest) {
     )
   }
 }
+

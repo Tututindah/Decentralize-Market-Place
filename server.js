@@ -23,7 +23,6 @@ app.prepare().then(() => {
     }
   });
 
-  // Initialize Socket.IO
   const io = new Server(httpServer, {
     cors: {
       origin: '*',
@@ -31,26 +30,21 @@ app.prepare().then(() => {
     }
   });
 
-  // Store active users and their rooms
   const activeUsers = new Map();
   const roomUsers = new Map();
 
   io.on('connection', (socket) => {
     console.log(`✅ User connected: ${socket.id}`);
 
-    // User joins with wallet address
     socket.on('user:join', ({ walletAddress, username }) => {
       activeUsers.set(socket.id, { walletAddress, username, socketId: socket.id });
       socket.walletAddress = walletAddress;
       socket.username = username;
 
       console.log(`👤 User ${username} (${walletAddress}) joined`);
-
-      // Broadcast updated user list
       io.emit('users:update', Array.from(activeUsers.values()));
     });
 
-    // Join a chat room
     socket.on('room:join', ({ roomId, walletAddress, username }) => {
       socket.join(roomId);
 
@@ -59,7 +53,6 @@ app.prepare().then(() => {
       }
       roomUsers.get(roomId).add(socket.id);
 
-      // Notify room that user joined
       io.to(roomId).emit('room:user-joined', {
         roomId,
         user: { walletAddress, username, socketId: socket.id }
@@ -68,7 +61,6 @@ app.prepare().then(() => {
       console.log(`📩 ${username} joined room: ${roomId}`);
     });
 
-    // Leave a chat room
     socket.on('room:leave', ({ roomId }) => {
       socket.leave(roomId);
 
@@ -84,7 +76,6 @@ app.prepare().then(() => {
       console.log(`📤 ${socket.username} left room: ${roomId}`);
     });
 
-    // Send message to room
     socket.on('message:send', ({ roomId, message, senderAddress, senderName }) => {
       const messageData = {
         id: `${Date.now()}-${socket.id}`,
@@ -94,14 +85,10 @@ app.prepare().then(() => {
         senderName,
         timestamp: new Date().toISOString()
       };
-
-      // Broadcast to everyone in the room including sender
       io.to(roomId).emit('message:received', messageData);
 
       console.log(`💬 Message in room ${roomId}: ${message.substring(0, 50)}...`);
     });
-
-    // Typing indicator
     socket.on('typing:start', ({ roomId, username }) => {
       socket.to(roomId).emit('typing:user', { username, isTyping: true });
     });
@@ -110,7 +97,6 @@ app.prepare().then(() => {
       socket.to(roomId).emit('typing:user', { username, isTyping: false });
     });
 
-    // WebRTC signaling for P2P video/audio
     socket.on('webrtc:offer', ({ roomId, offer, targetSocketId }) => {
       io.to(targetSocketId).emit('webrtc:offer', {
         offer,
@@ -133,11 +119,8 @@ app.prepare().then(() => {
       });
     });
 
-    // Handle disconnect
     socket.on('disconnect', () => {
       activeUsers.delete(socket.id);
-
-      // Remove from all rooms
       roomUsers.forEach((users, roomId) => {
         if (users.has(socket.id)) {
           users.delete(socket.id);
@@ -148,7 +131,6 @@ app.prepare().then(() => {
         }
       });
 
-      // Broadcast updated user list
       io.emit('users:update', Array.from(activeUsers.values()));
 
       console.log(`❌ User disconnected: ${socket.id}`);

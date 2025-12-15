@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { useWallet } from '@/contexts/WalletContext';
+import { useWallet } from '@/app/src/contexts/WalletContext';
 import './SubmitProposal.css';
 
 interface Job {
@@ -25,7 +25,7 @@ interface Job {
 const SubmitProposalPage: React.FC = () => {
   const { jobId } = useParams<{ jobId: string }>();
   const router = useRouter();
-  const { address, role, submitBid } = useWallet();
+  const { address, role } = useWallet();
 
   const [job, setJob] = useState<Job | null>(null);
   const [loading, setLoading] = useState(true);
@@ -101,10 +101,7 @@ const SubmitProposalPage: React.FC = () => {
     try {
       setSubmitting(true);
 
-      // Create bid on blockchain first
-      const txHash = await submitBid(jobId!, bidAmount);
-
-      // Submit to API
+      // Submit bid to API
       const response = await fetch(`${API_URL}/bids`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -114,7 +111,7 @@ const SubmitProposalPage: React.FC = () => {
           amount: bidAmount,
           proposal,
           deliveryDays: parseInt(deliveryTime),
-          blockchainTxHash: txHash,
+          blockchainTxHash: '', // Will be set when escrow is created
         }),
       });
 

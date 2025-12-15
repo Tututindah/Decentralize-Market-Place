@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { escrowService } from '@/services/escrow.service'
+import { escrowService } from '@/app/src/services/escrow.service';
 
 // POST /api/escrow/[escrowId]/sign - Sign escrow release
 export async function POST(
@@ -24,7 +24,7 @@ export async function POST(
     )
 
     // Check if we can release now
-    const canRelease = await escrowService.canReleaseEscrow(escrowId)
+    const canRelease = await escrowService.canReleaseEscrow(escrowId, '')
 
     return NextResponse.json({ escrow, canRelease })
   } catch (error: any) {

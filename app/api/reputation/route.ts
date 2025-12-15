@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { reputationService } from '@/services/reputation.service'
+import { reputationService } from '@/app/src/services/reputation.service'
 
 // GET /api/reputation?userId=xxx
 export async function GET(request: NextRequest) {
@@ -14,8 +14,8 @@ export async function GET(request: NextRequest) {
       )
     }
 
-    const history = await reputationService.getReputationHistory(userId)
-    return NextResponse.json({ history })
+    const reputation = await reputationService.getReputation(userId)
+    return NextResponse.json({ reputation })
   } catch (error: any) {
     console.error('Error fetching reputation:', error)
     return NextResponse.json(
@@ -24,3 +24,4 @@ export async function GET(request: NextRequest) {
     )
   }
 }
+

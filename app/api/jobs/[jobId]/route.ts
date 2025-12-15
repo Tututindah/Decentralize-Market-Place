@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { jobService } from '@/services/job.service'
+import { jobService } from '@/app/src/services/job.service';
 
 // GET /api/jobs/[jobId]
 export async function GET(

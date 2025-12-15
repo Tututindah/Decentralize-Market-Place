@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { chatService } from '@/services/chat.service'
+import { chatService } from '@/app/src/services/chat.service';
 
 // DELETE /api/chat/messages/[messageId]
 export async function DELETE(

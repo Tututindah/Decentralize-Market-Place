@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { userService } from '@/services/user.service'
+import { userService } from '@/app/src/services/user.service';
 
 export async function GET(
   _request: NextRequest,
@@ -9,34 +9,22 @@ export async function GET(
     const { address } = await params
 
     // Auto-create profile if user doesn't exist
-    const user = await userService.getOrCreateUser(address, 'FREELANCER')
+    const user = await userService.getOrCreateUser(address, 'freelancer')
 
     return NextResponse.json({
       id: user.id,
       walletAddress: user.wallet_address,
-      did: user.did,
       role: user.role,
-      kycStatus: user.kyc_status,
-      kycSubmittedAt: user.kyc_submitted_at,
-      kycApprovedAt: user.kyc_approved_at,
-      kycLevel: user.kyc_level,
       reputation: user.reputation_score,
-      trustScore: user.trust_score,
-      totalJobs: user.total_jobs,
-      completedJobs: user.completed_jobs,
-      cancelledJobs: user.cancelled_jobs,
-      disputeCount: user.dispute_count,
-      username: user.username,
       email: user.email,
       bio: user.bio,
       skills: user.skills,
-      avatarUrl: user.avatar_url,
-      reputationNft: {
-        policyId: user.reputation_nft_policy_id,
-        assetName: user.reputation_nft_asset_name,
-        txHash: user.reputation_nft_tx_hash,
-        utxoRef: user.reputation_utxo_ref,
-      },
+      name: user.name,
+      kycVerified: user.kyc_verified,
+      kycDid: user.kyc_did,
+      reputationNftId: user.reputation_nft_id,
+      createdAt: user.created_at,
+      updatedAt: user.updated_at,
     })
   } catch (error: any) {
     console.error('Error fetching user profile:', error)

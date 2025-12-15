@@ -1,0 +1,560 @@
+{
+  "preamble": {
+    "title": "simpler/counter",
+    "description": "Simple counter contract for testing",
+    "version": "1.0.0",
+    "plutusVersion": "v3",
+    "compiler": {
+      "name": "Aiken",
+      "version": "v1.1.19+e525483"
+    },
+    "license": "Apache-2.0"
+  },
+  "validators": [
+    {
+      "title": "freelance_escrow.freelance_escrow.spend",
+      "datum": {
+        "title": "datum",
+        "schema": {
+          "$ref": "#/definitions/freelance_escrow~1EscrowDatum"
+        }
+      },
+      "redeemer": {
+        "title": "redeemer",
+        "schema": {
+          "$ref": "#/definitions/freelance_escrow~1EscrowRedeemer"
+        }
+      },
+      "compiledCode": "59026301010029800aba2aba1aab9faab9eaab9dab9a48888896600264653001300700198039804000cdc3a400530070024888966002600460106ea800e26466453001159800980098059baa0028cc004c038c030dd50014dd618071807980798079807980798079807980798061baa004918079808180818081808000c8c03cc040c04000644646600200200644b30010018a508acc004cdc79bae30120010038a518998010011809800a01c4045300b375400e91111119912cc004c02400e2b300133004007375c602c60286ea80222b300133004007375c600a60286ea80222b30010028800c52820248a50404914a080922b3001300d0038acc004cc01001cdd7180b180a1baa0088acc004cc01001cdd71803180a1baa0088801452820248a50404915980099b874801000e2b300133004007375c600a60286ea80222b300133004007375c600c60286ea8022200314a08092294101245660026600800e6eb8c058c050dd500445660026600800e6eb8c014c050dd500445660026600800e6eb8c018c050dd5004456600200510018a50404914a08092294101245282024404880910124c004cdc79bae301430153012375400c910100a50a51404130013371e6eb8c050c054c054c054c048dd500324500a50a5140408b201498059baa0079807001a444b300130040028acc004c03cdd5005400e2c80822b300130080028acc004c03cdd5005400e2c80822b30013370e90020014566002601e6ea802a00716404115980099b874801800a2b3001300f37540150038b20208b201a4034806900d0c030c034004dc3a400060126ea800e2c8038600e00260066ea801e29344d9590011",
+      "hash": "657f0dbef7fdf298fe4588a1f433cb75118115836136ef0fcdcb6be3"
+    },
+    {
+      "title": "freelance_escrow.freelance_escrow.else",
+      "redeemer": {
+        "schema": {}
+      },
+      "compiledCode": "59026301010029800aba2aba1aab9faab9eaab9dab9a48888896600264653001300700198039804000cdc3a400530070024888966002600460106ea800e26466453001159800980098059baa0028cc004c038c030dd50014dd618071807980798079807980798079807980798061baa004918079808180818081808000c8c03cc040c04000644646600200200644b30010018a508acc004cdc79bae30120010038a518998010011809800a01c4045300b375400e91111119912cc004c02400e2b300133004007375c602c60286ea80222b300133004007375c600a60286ea80222b30010028800c52820248a50404914a080922b3001300d0038acc004cc01001cdd7180b180a1baa0088acc004cc01001cdd71803180a1baa0088801452820248a50404915980099b874801000e2b300133004007375c600a60286ea80222b300133004007375c600c60286ea8022200314a08092294101245660026600800e6eb8c058c050dd500445660026600800e6eb8c014c050dd500445660026600800e6eb8c018c050dd5004456600200510018a50404914a08092294101245282024404880910124c004cdc79bae301430153012375400c910100a50a51404130013371e6eb8c050c054c054c054c048dd500324500a50a5140408b201498059baa0079807001a444b300130040028acc004c03cdd5005400e2c80822b300130080028acc004c03cdd5005400e2c80822b30013370e90020014566002601e6ea802a00716404115980099b874801800a2b3001300f37540150038b20208b201a4034806900d0c030c034004dc3a400060126ea800e2c8038600e00260066ea801e29344d9590011",
+      "hash": "657f0dbef7fdf298fe4588a1f433cb75118115836136ef0fcdcb6be3"
+    },
+    {
+      "title": "hello_world.hello_world.spend",
+      "datum": {
+        "title": "datum",
+        "schema": {
+          "$ref": "#/definitions/hello_world~1Datum"
+        }
+      },
+      "redeemer": {
+        "title": "redeemer",
+        "schema": {
+          "$ref": "#/definitions/hello_world~1Redeemer"
+        }
+      },
+      "compiledCode": "59010601010029800aba2aba1aab9faab9eaab9dab9a48888896600264646644b30013370e900118031baa00189919912cc004cdc3a400060126ea801626464b3001300f0028acc004cdc3a400060166ea800e2b30013371e6eb8c038c030dd5003a450d48656c6c6f2c20576f726c642100899199119801001000912cc00400629422b30013371e6eb8c04400400e2946266004004602400280690101bac300f30103010301030103010301030103010300d3754601e0146eb8c038c030dd5180718061baa0038a5040291640291640346eb8c034004c028dd5002c5900818050009805180580098039baa0018b200a30070013007300800130070013003375400f149a26cac80081",
+      "hash": "2499e3a64ae4228a1e63ce6f131b279487d9780f132a0698e8b1f0f2"
+    },
+    {
+      "title": "hello_world.hello_world.else",
+      "redeemer": {
+        "schema": {}
+      },
+      "compiledCode": "59010601010029800aba2aba1aab9faab9eaab9dab9a48888896600264646644b30013370e900118031baa00189919912cc004cdc3a400060126ea801626464b3001300f0028acc004cdc3a400060166ea800e2b30013371e6eb8c038c030dd5003a450d48656c6c6f2c20576f726c642100899199119801001000912cc00400629422b30013371e6eb8c04400400e2946266004004602400280690101bac300f30103010301030103010301030103010300d3754601e0146eb8c038c030dd5180718061baa0038a5040291640291640346eb8c034004c028dd5002c5900818050009805180580098039baa0018b200a30070013007300800130070013003375400f149a26cac80081",
+      "hash": "2499e3a64ae4228a1e63ce6f131b279487d9780f132a0698e8b1f0f2"
+    },
+    {
+      "title": "job_listing.job_listing.spend",
+      "datum": {
+        "title": "datum",
+        "schema": {
+          "$ref": "#/definitions/job_listing~1JobDatum"
+        }
+      },
+      "redeemer": {
+        "title": "redeemer",
+        "schema": {
+          "$ref": "#/definitions/job_listing~1JobRedeemer"
+        }
+      },
+      "compiledCode": "59030601010029800aba2aba1aab9faab9eaab9dab9a48888896600264653001300700198039804000cdc3a400530070024888966002600460106ea800e26466453001159800980098059baa002899914c004c8cc88cc008008004896600200314a115980099b8f375c602600200714a31330020023014001403c8090dd618089809180918091809180918091809180918079baa007375c6020601c6ea800b30013371e6eb8c004c038dd500124500a50a514031300d37540129112cc004c018006264b30010048acc004c8c8cc004004dd61801180a1baa00c2259800800c528456600264b30013370e9002180a9baa0018992cc004c030c058dd5000c4c8c8c8c8c8c8c8c8c8ca600264b300130220018acc004cdc4a40086042003168980d9810800a0408b204637546046003375c6046015375c6046013375c6046011375c604600f375c604600d375a604600b375a6046009375a604600732598009811000c56600266e25200430210018b44c06cc0840050204590231baa30230024888888888966002605c01715980099b8f375c603260566ea8054dd7180c98159baa01f8acc004cdc79bae302d302b375402a6eb8c0b4c0acdd500fc56600266e3cdd71816981718171817181718159baa01501a899b8f375c603c60566ea8054dd7180f18159baa01f8a5040a514a0814a294102945902c0c08c004c088004c084004c080004c07c004c078004c074004c070004c06c004c05cdd5000c59015180c180b1baa0018a5040506006602a6ea8c05c0062946266004004603000280990161180a980b180b000c400e294101045282020375c602660226ea80322b3001300a0018acc00400e200514a0807a2b300100388014528201e403c8078601c60186ea80088c03cc0400062c805260166ea801e601c0069112cc004c01000a26464b30013014002802c590121bae3012001300f375401515980098040014566002601e6ea802a00716404115980099b874801000a2b3001300f37540150038b20208b201a403480686018601a0026e1d20003009375400716401c30070013003375400f149a26cac80081",
+      "hash": "0896d52b0e1a233e7481ce64684d150e5bc60652bd7a58504f2d9477"
+    },
+    {
+      "title": "job_listing.job_listing.else",
+      "redeemer": {
+        "schema": {}
+      },
+      "compiledCode": "59030601010029800aba2aba1aab9faab9eaab9dab9a48888896600264653001300700198039804000cdc3a400530070024888966002600460106ea800e26466453001159800980098059baa002899914c004c8cc88cc008008004896600200314a115980099b8f375c602600200714a31330020023014001403c8090dd618089809180918091809180918091809180918079baa007375c6020601c6ea800b30013371e6eb8c004c038dd500124500a50a514031300d37540129112cc004c018006264b30010048acc004c8c8cc004004dd61801180a1baa00c2259800800c528456600264b30013370e9002180a9baa0018992cc004c030c058dd5000c4c8c8c8c8c8c8c8c8c8ca600264b300130220018acc004cdc4a40086042003168980d9810800a0408b204637546046003375c6046015375c6046013375c6046011375c604600f375c604600d375a604600b375a6046009375a604600732598009811000c56600266e25200430210018b44c06cc0840050204590231baa30230024888888888966002605c01715980099b8f375c603260566ea8054dd7180c98159baa01f8acc004cdc79bae302d302b375402a6eb8c0b4c0acdd500fc56600266e3cdd71816981718171817181718159baa01501a899b8f375c603c60566ea8054dd7180f18159baa01f8a5040a514a0814a294102945902c0c08c004c088004c084004c080004c07c004c078004c074004c070004c06c004c05cdd5000c59015180c180b1baa0018a5040506006602a6ea8c05c0062946266004004603000280990161180a980b180b000c400e294101045282020375c602660226ea80322b3001300a0018acc00400e200514a0807a2b300100388014528201e403c8078601c60186ea80088c03cc0400062c805260166ea801e601c0069112cc004c01000a26464b30013014002802c590121bae3012001300f375401515980098040014566002601e6ea802a00716404115980099b874801000a2b3001300f37540150038b20208b201a403480686018601a0026e1d20003009375400716401c30070013003375400f149a26cac80081",
+      "hash": "0896d52b0e1a233e7481ce64684d150e5bc60652bd7a58504f2d9477"
+    },
+    {
+      "title": "reputation_score.reputation_score.spend",
+      "datum": {
+        "title": "datum",
+        "schema": {
+          "$ref": "#/definitions/reputation_score~1ReputationDatum"
+        }
+      },
+      "redeemer": {
+        "title": "redeemer",
+        "schema": {
+          "$ref": "#/definitions/reputation_score~1ReputationRedeemer"
+        }
+      },
+      "compiledCode": "59045701010029800aba2aba1aab9faab9eaab9dab9a48888896600264653001300700198039804000cdc3a400530070024888966002600460106ea800e3300130093754007370e90024dc3a40013008375400891111919912cc004c01401226464646530013259800980a800c56600266e25200430140018b44c038c0500050134590161baa30160019bae30160049bad30160039bad30160024888966002603600b00a8b2032180b000980a800980a00098081baa00b8acc004c02401226464b300130150028024590131bae301300130103754017159800980300244c8c966002602a0050048b2026375c602600260206ea802e2c807100e201c159800980198069baa0018cc004c040c038dd5000c8966002600a601e6ea800a2646464646464646464653001375a6038003375c6038015375c6038013375a6038011375a603800f375a603800d375a603800b375a6038009375a6038007375a603800491111111112cc004c09c02e02b164094301c001301b001301a001301900130180013017001301600130150013014001301037540051640392301130123012001911919800800801912cc00400629422b3001300330140018a51899801001180a800a020404d300d375401337009001244444464b3001300a003899194c004dd6980c800cc040c058dd5180c980d000cdd6980c8012444b30010068998049bac300a301a3754024464b30013012301b37540031323300e00115980099b8f375c603e603a6ea8004dd7180f980e9baa00f8acc0056600200b1598009919b87375a6002603c6ea8008c02cdd69800980f1baa01023020302130213021001899b87375a601a603a6ea8004c028dd69806980e9baa00f8a50406d1598009919b87375a6002603c6ea8008c02cdd69800980f1baa010230203021302130213021001899b87375a601a603a6ea8004c028dd69806980e9baa00f8a50406c80da2b300133712900000244cdc4802241900314a080da294101b45282036301e301c375400314a080d0c02cc06cdd5000c5282030180c800980c180a9baa0108acc004c03800e2b30010018998021bac30053015375401a464b3001300d301637540031323300900115980099b8f375c603460306ea8004dd7180d180c1baa00a89919b87375a600260326ea8008c018dd69800980c9baa00b2301b301c301c301c301c301c0018a5040586032602e6ea800629410151803180b1baa0018a50404d1325980080144cc014dd61803180b1baa00e232598009807180b9baa001899198050008acc004cdc79bae301b301937540026eb8c06cc064dd5005c4cdc79bae301b301c3019375400200914a080b8c068c060dd5000c528202c30073017375400314a080a0dd7180b980a9baa010404c8098c8cc88cc008008004896600200314a115980099b8f375c603200200714a3133002002301a001405480c0dd6180b980c180c180c180c180c180c180c180c180a9baa00d375c602c60286ea8019164030602000a601e60200088b200e180380098019baa0078a4d13656400401",
+      "hash": "26e22a34cf1a8647046f8f13c0da91bab1b6cb4fada1f11aa80ebf84"
+    },
+    {
+      "title": "reputation_score.reputation_score.else",
+      "redeemer": {
+        "schema": {}
+      },
+      "compiledCode": "59045701010029800aba2aba1aab9faab9eaab9dab9a48888896600264653001300700198039804000cdc3a400530070024888966002600460106ea800e3300130093754007370e90024dc3a40013008375400891111919912cc004c01401226464646530013259800980a800c56600266e25200430140018b44c038c0500050134590161baa30160019bae30160049bad30160039bad30160024888966002603600b00a8b2032180b000980a800980a00098081baa00b8acc004c02401226464b300130150028024590131bae301300130103754017159800980300244c8c966002602a0050048b2026375c602600260206ea802e2c807100e201c159800980198069baa0018cc004c040c038dd5000c8966002600a601e6ea800a2646464646464646464653001375a6038003375c6038015375c6038013375a6038011375a603800f375a603800d375a603800b375a6038009375a6038007375a603800491111111112cc004c09c02e02b164094301c001301b001301a001301900130180013017001301600130150013014001301037540051640392301130123012001911919800800801912cc00400629422b3001300330140018a51899801001180a800a020404d300d375401337009001244444464b3001300a003899194c004dd6980c800cc040c058dd5180c980d000cdd6980c8012444b30010068998049bac300a301a3754024464b30013012301b37540031323300e00115980099b8f375c603e603a6ea8004dd7180f980e9baa00f8acc0056600200b1598009919b87375a6002603c6ea8008c02cdd69800980f1baa01023020302130213021001899b87375a601a603a6ea8004c028dd69806980e9baa00f8a50406d1598009919b87375a6002603c6ea8008c02cdd69800980f1baa010230203021302130213021001899b87375a601a603a6ea8004c028dd69806980e9baa00f8a50406c80da2b300133712900000244cdc4802241900314a080da294101b45282036301e301c375400314a080d0c02cc06cdd5000c5282030180c800980c180a9baa0108acc004c03800e2b30010018998021bac30053015375401a464b3001300d301637540031323300900115980099b8f375c603460306ea8004dd7180d180c1baa00a89919b87375a600260326ea8008c018dd69800980c9baa00b2301b301c301c301c301c301c0018a5040586032602e6ea800629410151803180b1baa0018a50404d1325980080144cc014dd61803180b1baa00e232598009807180b9baa001899198050008acc004cdc79bae301b301937540026eb8c06cc064dd5005c4cdc79bae301b301c3019375400200914a080b8c068c060dd5000c528202c30073017375400314a080a0dd7180b980a9baa010404c8098c8cc88cc008008004896600200314a115980099b8f375c603200200714a3133002002301a001405480c0dd6180b980c180c180c180c180c180c180c180c180a9baa00d375c602c60286ea8019164030602000a601e60200088b200e180380098019baa0078a4d13656400401",
+      "hash": "26e22a34cf1a8647046f8f13c0da91bab1b6cb4fada1f11aa80ebf84"
+    },
+    {
+      "title": "token_escrow.token_escrow.spend",
+      "datum": {
+        "title": "datum",
+        "schema": {
+          "$ref": "#/definitions/token_escrow~1TokenDatum"
+        }
+      },
+      "redeemer": {
+        "title": "redeemer",
+        "schema": {
+          "$ref": "#/definitions/token_escrow~1TokenRedeemer"
+        }
+      },
+      "compiledCode": "59025f01010029800aba2aba1aba0aab9faab9eaab9dab9a488888896600264653001300800198041804800cc0200092225980099b8748008c01cdd500144ca60026018003300c300d0019b874800122259800980098059baa0078acc004c030dd5003c566002600260166ea800a26644b30013003300d37540031323259800980298079baa0018991919912cc004c8cc88cc008008004896600200314a115980099b8f375c603400200714a3133002002301b001405480c0dd6180c180c980c980c980c980c980c980c980c980a9baa00e375c602e60286ea8022266e24dd6980b980c180c180c180a1baa008375a602e603000714a08090dd7180a8009bae301500230150013758602660206ea80062c8070c8cc004004c8cc004004dd5980198089baa300330113754602860226ea8010896600200314bd7044c8cc88cc88cc008008004896600200310038991980d1ba73301a375200a66034602e00266034603000297ae033003003301c002301a00140606eacc05400cdd7180900099801801980b801180a800a0262259800800c530103d87a80008992cc0056600266e3cdd7180a8009bae30043012375400d13371e6eb8c054c058004dd7180a980b180b18091baa0068a50404113374a90001980a1ba70014bd7044cc00c00cc0580090101bac30140014048460246026003164030601e60186ea8008c8cc004004dd6180818069baa0062259800800c5300103d87a80008992cc004cdd7980918079baa001006899ba548000cc0440052f5c1133003003301300240346022002807a2c80522c806a2c805060106ea800a2c8030601000260066ea802229344d9590011",
+      "hash": "8c0c901c2f79668ae9690b24a3fdeb0d792cc88b3c91343a7965994c"
+    },
+    {
+      "title": "token_escrow.token_escrow.else",
+      "redeemer": {
+        "schema": {}
+      },
+      "compiledCode": "59025f01010029800aba2aba1aba0aab9faab9eaab9dab9a488888896600264653001300800198041804800cc0200092225980099b8748008c01cdd500144ca60026018003300c300d0019b874800122259800980098059baa0078acc004c030dd5003c566002600260166ea800a26644b30013003300d37540031323259800980298079baa0018991919912cc004c8cc88cc008008004896600200314a115980099b8f375c603400200714a3133002002301b001405480c0dd6180c180c980c980c980c980c980c980c980c980a9baa00e375c602e60286ea8022266e24dd6980b980c180c180c180a1baa008375a602e603000714a08090dd7180a8009bae301500230150013758602660206ea80062c8070c8cc004004c8cc004004dd5980198089baa300330113754602860226ea8010896600200314bd7044c8cc88cc88cc008008004896600200310038991980d1ba73301a375200a66034602e00266034603000297ae033003003301c002301a00140606eacc05400cdd7180900099801801980b801180a800a0262259800800c530103d87a80008992cc0056600266e3cdd7180a8009bae30043012375400d13371e6eb8c054c058004dd7180a980b180b18091baa0068a50404113374a90001980a1ba70014bd7044cc00c00cc0580090101bac30140014048460246026003164030601e60186ea8008c8cc004004dd6180818069baa0062259800800c5300103d87a80008992cc004cdd7980918079baa001006899ba548000cc0440052f5c1133003003301300240346022002807a2c80522c806a2c805060106ea800a2c8030601000260066ea802229344d9590011",
+      "hash": "8c0c901c2f79668ae9690b24a3fdeb0d792cc88b3c91343a7965994c"
+    },
+    {
+      "title": "usdm_token.usdm_token.mint",
+      "redeemer": {
+        "title": "redeemer",
+        "schema": {
+          "$ref": "#/definitions/usdm_token~1USDMRedeemer"
+        }
+      },
+      "compiledCode": "58a001010029800aba2aba1aab9faab9eaab9dab9a48888896600264653001300700198039804000cdc3a400130070024888966002600460106ea800e33001375c601660126ea800e2b300130023008375400914a314a2803a60106ea8011222598009802800c56600260186ea801e00516403515980099b87480080062b3001300c375400f0028b201a8b201440288b200e180380098019baa0078a4d1365640041",
+      "hash": "33f18ffac0524155288df94e1e89c140768988af3b0b1d5e910096e7"
+    },
+    {
+      "title": "usdm_token.usdm_token.else",
+      "redeemer": {
+        "schema": {}
+      },
+      "compiledCode": "58a001010029800aba2aba1aab9faab9eaab9dab9a48888896600264653001300700198039804000cdc3a400130070024888966002600460106ea800e33001375c601660126ea800e2b300130023008375400914a314a2803a60106ea8011222598009802800c56600260186ea801e00516403515980099b87480080062b3001300c375400f0028b201a8b201440288b200e180380098019baa0078a4d1365640041",
+      "hash": "33f18ffac0524155288df94e1e89c140768988af3b0b1d5e910096e7"
+    }
+  ],
+  "definitions": {
+    "Bool": {
+      "title": "Bool",
+      "anyOf": [
+        {
+          "title": "False",
+          "dataType": "constructor",
+          "index": 0,
+          "fields": []
+        },
+        {
+          "title": "True",
+          "dataType": "constructor",
+          "index": 1,
+          "fields": []
+        }
+      ]
+    },
+    "ByteArray": {
+      "dataType": "bytes"
+    },
+    "Int": {
+      "dataType": "integer"
+    },
+    "aiken/crypto/VerificationKeyHash": {
+      "title": "VerificationKeyHash",
+      "dataType": "bytes"
+    },
+    "cardano/assets/AssetName": {
+      "title": "AssetName",
+      "dataType": "bytes"
+    },
+    "cardano/assets/PolicyId": {
+      "title": "PolicyId",
+      "dataType": "bytes"
+    },
+    "freelance_escrow/EscrowDatum": {
+      "title": "EscrowDatum",
+      "description": "Escrow datum holds details about the freelance job\n NOW REQUIRES KYC: Both client and freelancer must have verified DIDs",
+      "anyOf": [
+        {
+          "title": "EscrowDatum",
+          "dataType": "constructor",
+          "index": 0,
+          "fields": [
+            {
+              "title": "client",
+              "$ref": "#/definitions/aiken~1crypto~1VerificationKeyHash"
+            },
+            {
+              "title": "client_did",
+              "$ref": "#/definitions/ByteArray"
+            },
+            {
+              "title": "freelancer",
+              "$ref": "#/definitions/aiken~1crypto~1VerificationKeyHash"
+            },
+            {
+              "title": "freelancer_did",
+              "$ref": "#/definitions/ByteArray"
+            },
+            {
+              "title": "arbiter",
+              "$ref": "#/definitions/aiken~1crypto~1VerificationKeyHash"
+            },
+            {
+              "title": "usdm_policy",
+              "$ref": "#/definitions/cardano~1assets~1PolicyId"
+            },
+            {
+              "title": "usdm_name",
+              "$ref": "#/definitions/cardano~1assets~1AssetName"
+            },
+            {
+              "title": "amount",
+              "$ref": "#/definitions/Int"
+            },
+            {
+              "title": "job_id",
+              "$ref": "#/definitions/ByteArray"
+            }
+          ]
+        }
+      ]
+    },
+    "freelance_escrow/EscrowRedeemer": {
+      "title": "EscrowRedeemer",
+      "description": "Actions that can be taken on the escrow",
+      "anyOf": [
+        {
+          "title": "Release",
+          "description": "Client and freelancer both agree to release funds",
+          "dataType": "constructor",
+          "index": 0,
+          "fields": []
+        },
+        {
+          "title": "Refund",
+          "description": "Client and arbiter agree to refund",
+          "dataType": "constructor",
+          "index": 1,
+          "fields": []
+        },
+        {
+          "title": "ReleaseWithArbiter",
+          "description": "Freelancer and arbiter agree to release",
+          "dataType": "constructor",
+          "index": 2,
+          "fields": []
+        },
+        {
+          "title": "Cancel",
+          "description": "All three parties agree (emergency cancel)",
+          "dataType": "constructor",
+          "index": 3,
+          "fields": []
+        }
+      ]
+    },
+    "hello_world/Datum": {
+      "title": "Datum",
+      "anyOf": [
+        {
+          "title": "Datum",
+          "dataType": "constructor",
+          "index": 0,
+          "fields": [
+            {
+              "title": "owner",
+              "$ref": "#/definitions/aiken~1crypto~1VerificationKeyHash"
+            }
+          ]
+        }
+      ]
+    },
+    "hello_world/Redeemer": {
+      "title": "Redeemer",
+      "anyOf": [
+        {
+          "title": "Redeemer",
+          "dataType": "constructor",
+          "index": 0,
+          "fields": [
+            {
+              "title": "msg",
+              "$ref": "#/definitions/ByteArray"
+            }
+          ]
+        }
+      ]
+    },
+    "job_listing/JobDatum": {
+      "title": "JobDatum",
+      "description": "Job listing datum - stored on-chain for transparency\n NOW REQUIRES KYC: client_did must be a valid verified DID",
+      "anyOf": [
+        {
+          "title": "JobDatum",
+          "dataType": "constructor",
+          "index": 0,
+          "fields": [
+            {
+              "title": "client",
+              "$ref": "#/definitions/aiken~1crypto~1VerificationKeyHash"
+            },
+            {
+              "title": "client_did",
+              "$ref": "#/definitions/ByteArray"
+            },
+            {
+              "title": "job_id",
+              "$ref": "#/definitions/ByteArray"
+            },
+            {
+              "title": "title",
+              "$ref": "#/definitions/ByteArray"
+            },
+            {
+              "title": "description_hash",
+              "$ref": "#/definitions/ByteArray"
+            },
+            {
+              "title": "budget_min",
+              "$ref": "#/definitions/Int"
+            },
+            {
+              "title": "budget_max",
+              "$ref": "#/definitions/Int"
+            },
+            {
+              "title": "deadline",
+              "$ref": "#/definitions/Int"
+            },
+            {
+              "title": "is_active",
+              "$ref": "#/definitions/Bool"
+            },
+            {
+              "title": "kyc_required",
+              "$ref": "#/definitions/Bool"
+            }
+          ]
+        }
+      ]
+    },
+    "job_listing/JobRedeemer": {
+      "title": "JobRedeemer",
+      "description": "Actions for job listings",
+      "anyOf": [
+        {
+          "title": "UpdateJob",
+          "description": "Client updates job details",
+          "dataType": "constructor",
+          "index": 0,
+          "fields": [
+            {
+              "title": "new_description_hash",
+              "$ref": "#/definitions/ByteArray"
+            }
+          ]
+        },
+        {
+          "title": "CloseJob",
+          "description": "Client closes the job",
+          "dataType": "constructor",
+          "index": 1,
+          "fields": []
+        },
+        {
+          "title": "CancelJob",
+          "description": "Client cancels the job",
+          "dataType": "constructor",
+          "index": 2,
+          "fields": []
+        }
+      ]
+    },
+    "reputation_score/ReputationDatum": {
+      "title": "ReputationDatum",
+      "description": "Reputation score stored on-chain for transparency",
+      "anyOf": [
+        {
+          "title": "ReputationDatum",
+          "dataType": "constructor",
+          "index": 0,
+          "fields": [
+            {
+              "title": "user",
+              "$ref": "#/definitions/aiken~1crypto~1VerificationKeyHash"
+            },
+            {
+              "title": "did",
+              "$ref": "#/definitions/ByteArray"
+            },
+            {
+              "title": "total_jobs",
+              "$ref": "#/definitions/Int"
+            },
+            {
+              "title": "completed_jobs",
+              "$ref": "#/definitions/Int"
+            },
+            {
+              "title": "cancelled_jobs",
+              "$ref": "#/definitions/Int"
+            },
+            {
+              "title": "dispute_count",
+              "$ref": "#/definitions/Int"
+            },
+            {
+              "title": "total_earned",
+              "$ref": "#/definitions/Int"
+            },
+            {
+              "title": "total_paid",
+              "$ref": "#/definitions/Int"
+            },
+            {
+              "title": "average_rating",
+              "$ref": "#/definitions/Int"
+            },
+            {
+              "title": "last_updated",
+              "$ref": "#/definitions/Int"
+            }
+          ]
+        }
+      ]
+    },
+    "reputation_score/ReputationRedeemer": {
+      "title": "ReputationRedeemer",
+      "description": "Actions for reputation management",
+      "anyOf": [
+        {
+          "title": "UpdateReputation",
+          "description": "Update reputation after job completion",
+          "dataType": "constructor",
+          "index": 0,
+          "fields": [
+            {
+              "title": "job_id",
+              "$ref": "#/definitions/ByteArray"
+            },
+            {
+              "title": "rating",
+              "$ref": "#/definitions/Int"
+            },
+            {
+              "title": "amount",
+              "$ref": "#/definitions/Int"
+            },
+            {
+              "title": "completed",
+              "$ref": "#/definitions/Bool"
+            }
+          ]
+        },
+        {
+          "title": "RecordDispute",
+          "description": "Increment dispute count",
+          "dataType": "constructor",
+          "index": 1,
+          "fields": [
+            {
+              "title": "job_id",
+              "$ref": "#/definitions/ByteArray"
+            }
+          ]
+        },
+        {
+          "title": "UpdateDID",
+          "description": "User updates their DID",
+          "dataType": "constructor",
+          "index": 2,
+          "fields": [
+            {
+              "title": "new_did",
+              "$ref": "#/definitions/ByteArray"
+            }
+          ]
+        }
+      ]
+    },
+    "token_escrow/TokenDatum": {
+      "title": "TokenDatum",
+      "anyOf": [
+        {
+          "title": "TokenDatum",
+          "dataType": "constructor",
+          "index": 0,
+          "fields": [
+            {
+              "title": "owner",
+              "$ref": "#/definitions/aiken~1crypto~1VerificationKeyHash"
+            },
+            {
+              "title": "policy_id",
+              "$ref": "#/definitions/cardano~1assets~1PolicyId"
+            },
+            {
+              "title": "asset_name",
+              "$ref": "#/definitions/cardano~1assets~1AssetName"
+            },
+            {
+              "title": "amount",
+              "$ref": "#/definitions/Int"
+            }
+          ]
+        }
+      ]
+    },
+    "token_escrow/TokenRedeemer": {
+      "title": "TokenRedeemer",
+      "anyOf": [
+        {
+          "title": "Release",
+          "dataType": "constructor",
+          "index": 0,
+          "fields": []
+        }
+      ]
+    },
+    "usdm_token/USDMRedeemer": {
+      "title": "USDMRedeemer",
+      "description": "Simple USDM mock token for testing\n In production, this would have proper monetary policy",
+      "anyOf": [
+        {
+          "title": "Mint",
+          "dataType": "constructor",
+          "index": 0,
+          "fields": []
+        },
+        {
+          "title": "Burn",
+          "dataType": "constructor",
+          "index": 1,
+          "fields": []
+        }
+      ]
+    }
+  }
+}

@@ -1,28 +1,38 @@
 'use client'
 
-import dynamic from 'next/dynamic'
 import { Toaster } from 'react-hot-toast'
-import { ThemeProvider } from '@/components/ThemeProvider'
-import { WalletProvider } from '@/contexts/WalletContext'
-import { UserProvider } from '@/contexts/UserContext'
-
-// Dynamically import MeshProvider with SSR disabled to avoid undefined class extension errors
-const MeshProvider = dynamic(
-  () => import('@meshsdk/react').then((mod) => mod.MeshProvider),
-  { ssr: false }
-)
+import { WalletProvider } from '@/app/src/contexts/WalletContext'
+import { ThemeProvider } from '@/app/src/components/ThemeProvider'
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
-    <MeshProvider>
-      <ThemeProvider>
-        <WalletProvider>
-          <UserProvider>
-            {children}
-            <Toaster />
-          </UserProvider>
-        </WalletProvider>
-      </ThemeProvider>
-    </MeshProvider>
+    <ThemeProvider>
+      <WalletProvider>
+        {children}
+        <Toaster
+          position="top-right"
+          toastOptions={{
+            duration: 4000,
+            style: {
+              background: '#363636',
+              color: '#fff',
+            },
+            success: {
+              iconTheme: {
+                primary: '#10b981',
+                secondary: '#fff',
+              },
+            },
+            error: {
+              iconTheme: {
+                primary: '#ef4444',
+                secondary: '#fff',
+              },
+            },
+          }}
+        />
+      </WalletProvider>
+    </ThemeProvider>
   )
 }
+

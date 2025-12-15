@@ -1,9 +1,12 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { ADMIN_CONFIG, getArbiterAddress } from '@/config/admin.config';
-import { supabase } from '@/lib/supabase';
-import type { Database } from '@/lib/database.types';
+import { useTheme } from '@/app/src/components/ThemeProvider';
+import Header from '@/app/src/components/Header';
+import { Footer } from '@/app/src/components/Footer';
+import { ADMIN_CONFIG, getArbiterAddress } from '@/app/src/config/admin.config';
+import { supabase } from '@/app/src/lib/supabase';
+import type { Database } from '@/app/src/lib/database.types';
 
 type Escrow = Database['public']['Tables']['escrows']['Row'];
 
@@ -25,6 +28,7 @@ interface PlatformStats {
 }
 
 export default function AdminDashboard() {
+  const { isDarkMode } = useTheme()
   const [escrowStats, setEscrowStats] = useState<EscrowStats>({
     total: 0,
     created: 0,
@@ -128,15 +132,25 @@ export default function AdminDashboard() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="text-xl">Loading admin dashboard...</div>
+      <div className={`min-h-screen transition-colors ${
+        isDarkMode ? 'bg-black text-white' : 'bg-white text-black'
+      }`}>
+        <Header />
+        <div className="flex items-center justify-center min-h-[80vh]">
+          <div className="text-xl">Loading admin dashboard...</div>
+        </div>
+        <Footer isDarkMode={isDarkMode} />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8 px-4">
-      <div className="max-w-7xl mx-auto">
+    <div className={`min-h-screen transition-colors ${
+      isDarkMode ? 'bg-black text-white' : 'bg-white text-black'
+    }`}>
+      <Header />
+      <div className="py-8 px-4">
+        <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-gray-900 mb-2">Admin Dashboard</h1>
@@ -279,6 +293,8 @@ export default function AdminDashboard() {
           </div>
         </div>
       </div>
+      </div>
+      <Footer isDarkMode={isDarkMode} />
     </div>
   );
 }
@@ -337,3 +353,4 @@ function ConfigRow({ label, value }: { label: string; value: string }) {
     </div>
   );
 }
+

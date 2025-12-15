@@ -1,12 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { chatService } from '@/services/chat.service'
+import { chatService } from '@/app/src/services/chat.service'
 
 // GET /api/chat/messages?roomId=xxx&limit=50
 export async function GET(request: NextRequest) {
   try {
     const searchParams = request.nextUrl.searchParams
     const roomId = searchParams.get('roomId')
-    const limit = parseInt(searchParams.get('limit') || '50')
 
     if (!roomId) {
       return NextResponse.json(
@@ -15,7 +14,7 @@ export async function GET(request: NextRequest) {
       )
     }
 
-    const messages = await chatService.getRoomMessages(roomId, limit)
+    const messages = await chatService.getMessagesByRoom(roomId)
     return NextResponse.json({ messages })
   } catch (error: any) {
     console.error('Error fetching messages:', error)
@@ -30,11 +29,11 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    const { roomId, senderId, senderAddress, content, type = 'text' } = body
+    const { roomId, senderId, content } = body
 
-    if (!roomId || !senderId || !senderAddress || !content) {
+    if (!roomId || !senderId || !content) {
       return NextResponse.json(
-        { error: 'roomId, senderId, senderAddress, and content are required' },
+        { error: 'roomId, senderId, and content are required' },
         { status: 400 }
       )
     }
@@ -42,9 +41,7 @@ export async function POST(request: NextRequest) {
     const message = await chatService.sendMessage(
       roomId,
       senderId,
-      senderAddress,
-      content,
-      type
+      content
     )
 
     return NextResponse.json({ message })
@@ -56,3 +53,4 @@ export async function POST(request: NextRequest) {
     )
   }
 }
+

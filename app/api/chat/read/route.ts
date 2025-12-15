@@ -1,20 +1,20 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { chatService } from '@/services/chat.service'
+import { chatService } from '@/app/src/services/chat.service'
 
 // POST /api/chat/read - Mark messages as read
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    const { roomId, userId, isParticipant1 } = body
+    const { roomId, userId } = body
 
-    if (!roomId || !userId || isParticipant1 === undefined) {
+    if (!roomId || !userId) {
       return NextResponse.json(
-        { error: 'roomId, userId, and isParticipant1 are required' },
+        { error: 'roomId and userId are required' },
         { status: 400 }
       )
     }
 
-    await chatService.markAsRead(roomId, userId, isParticipant1)
+    await chatService.markMessagesAsRead(roomId, userId)
     return NextResponse.json({ success: true })
   } catch (error: any) {
     console.error('Error marking as read:', error)
@@ -24,3 +24,4 @@ export async function POST(request: NextRequest) {
     )
   }
 }
+

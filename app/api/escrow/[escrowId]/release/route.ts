@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { escrowService } from '@/services/escrow.service'
+import { escrowService } from '@/app/src/services/escrow.service';
 
 // POST /api/escrow/[escrowId]/release - Release escrow funds
 export async function POST(
@@ -19,7 +19,7 @@ export async function POST(
     }
 
     // Check if escrow can be released
-    const canRelease = await escrowService.canReleaseEscrow(escrowId)
+    const canRelease = await escrowService.canReleaseEscrow(escrowId, '')
     if (!canRelease) {
       return NextResponse.json(
         { error: 'Escrow does not have enough signatures to release' },
@@ -27,7 +27,7 @@ export async function POST(
       )
     }
 
-    const escrow = await escrowService.releaseEscrow(escrowId, releaseTxHash)
+    const escrow = await escrowService.releaseEscrow(escrowId)
     return NextResponse.json({ escrow })
   } catch (error: any) {
     console.error('Error releasing escrow:', error)

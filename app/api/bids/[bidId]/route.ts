@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { proposalService } from '@/services/proposal.service'
+import { proposalService } from '@/app/src/services/proposal.service';
 
 // GET /api/bids/[bidId]
 export async function GET(

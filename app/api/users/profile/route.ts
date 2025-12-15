@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { userService } from '@/services/user.service'
+import { userService } from '@/app/src/services/user.service'
 
 export async function POST(request: NextRequest) {
   try {
@@ -20,17 +20,17 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const user = await userService.getOrCreateUser(walletAddress, role)
+    const user = await userService.getOrCreateUser(walletAddress, role.toLowerCase() as any)
 
     return NextResponse.json({
       id: user.id,
       walletAddress: user.wallet_address,
       role: user.role,
-      kycStatus: user.kyc_status,
+      kycStatus: user.kyc_verified ? 'verified' : 'pending',
       reputation: user.reputation_score,
-      trustScore: user.trust_score,
-      totalJobs: user.total_jobs,
-      completedJobs: user.completed_jobs,
+      trustScore: user.reputation_score, // Using reputation_score as trust_score
+      totalJobs: 0, // TODO: Calculate from jobs table
+      completedJobs: 0, // TODO: Calculate from completed jobs
     })
   } catch (error: any) {
     console.error('Error creating user profile:', error)
@@ -40,3 +40,4 @@ export async function POST(request: NextRequest) {
     )
   }
 }
+

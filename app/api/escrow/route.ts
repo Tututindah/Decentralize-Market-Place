@@ -1,23 +1,20 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { escrowService } from '@/services/escrow.service'
+import { escrowService } from '@/app/src/services/escrow.service'
 
-// GET /api/escrow?jobId=xxx or bidId=xxx
+// GET /api/escrow?jobId=xxx
 export async function GET(request: NextRequest) {
   try {
     const searchParams = request.nextUrl.searchParams
     const jobId = searchParams.get('jobId')
-    const bidId = searchParams.get('bidId')
 
-    if (!jobId && !bidId) {
+    if (!jobId) {
       return NextResponse.json(
-        { error: 'jobId or bidId is required' },
+        { error: 'jobId is required' },
         { status: 400 }
       )
     }
 
-    const escrow = jobId
-      ? await escrowService.getEscrowByJobId(jobId)
-      : await escrowService.getEscrowByBidId(bidId!)
+    const escrow = await escrowService.getEscrowByJobId(jobId)
 
     if (!escrow) {
       return NextResponse.json(
@@ -43,40 +40,44 @@ export async function POST(request: NextRequest) {
     const {
       txHash,
       jobId,
-      bidId,
       employerId,
-      employerDid,
       freelancerId,
-      freelancerDid,
       amount,
+      employerDid,
+      freelancerDid,
+      arbiterAddress,
+      jobRef,
       policyId,
       assetName,
-      arbiterAddress,
-      jobRef
+      scriptAddress
     } = body
 
-    if (!txHash || !jobId || !bidId || !employerId || !employerDid || 
-        !freelancerId || !freelancerDid || !amount) {
+    if (!txHash || !jobId || !employerId || !freelancerId || !amount) {
       return NextResponse.json(
         { error: 'Missing required fields' },
         { status: 400 }
       )
     }
 
-    const escrow = await escrowService.createEscrow(
-      txHash,
-      jobId,
-      bidId,
-      employerId,
-      employerDid,
-      freelancerId,
-      freelancerDid,
+    // Default values for optional blockchain fields
+    const USDM_POLICY_ID = "f96672ded25c90551d210e883099110f613e0e65012d5b88b68c51d0"
+    const USDM_ASSET_NAME = "4d4f434b5f5553444d"
+
+    const escrow = await escrowService.createEscrow({
+      tx_hash: txHash,
+      job_id: jobId,
+      employer_id: employerId,
+      employer_did: employerDid || `did:cardano:${employerId.substring(0, 16)}`,
+      freelancer_id: freelancerId,
+      freelancer_did: freelancerDid || `did:cardano:${freelancerId.substring(0, 16)}`,
+      arbiter_address: arbiterAddress || '',
+      job_ref: jobRef || jobId,
       amount,
-      policyId,
-      assetName,
-      arbiterAddress,
-      jobRef
-    )
+      policy_id: policyId || USDM_POLICY_ID,
+      asset_name: assetName || USDM_ASSET_NAME,
+      script_address: scriptAddress || null,
+      status: 'LOCKED'
+    })
 
     return NextResponse.json({ escrow })
   } catch (error: any) {
@@ -87,3 +88,4 @@ export async function POST(request: NextRequest) {
     )
   }
 }
+

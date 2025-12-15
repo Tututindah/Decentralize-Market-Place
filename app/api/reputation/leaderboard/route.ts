@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { reputationService } from '@/services/reputation.service'
+import { reputationService } from '@/app/src/services/reputation.service'
 
 // GET /api/reputation/leaderboard?limit=10
 export async function GET(request: NextRequest) {
@@ -7,7 +7,7 @@ export async function GET(request: NextRequest) {
     const searchParams = request.nextUrl.searchParams
     const limit = parseInt(searchParams.get('limit') || '10')
 
-    const topUsers = await reputationService.getTopUsers(limit)
+    const topUsers = await reputationService.getLeaderboard(limit)
     return NextResponse.json({ topUsers })
   } catch (error: any) {
     console.error('Error fetching leaderboard:', error)
@@ -17,3 +17,4 @@ export async function GET(request: NextRequest) {
     )
   }
 }
+

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { chatService } from '@/services/chat.service'
+import { chatService } from '@/app/src/services/chat.service';
 
 // GET /api/chat/rooms/[roomId] - Get room with participants
 export async function GET(
